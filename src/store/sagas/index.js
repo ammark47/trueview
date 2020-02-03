@@ -12,7 +12,6 @@ export function* handleAuthenticationCallback() {
     yield takeLatest(HANDLE_AUTHENTICATION_CALLBACK, parseHash);
 }
 
-// replace the current rootSaga generator
 export default function* rootSaga() {
     yield all([handleAuthenticationCallback()]);
 }
