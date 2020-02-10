@@ -7,20 +7,16 @@ import { usersRef, createUserInFirebase } from '../../firebase'
 export function* parseHash() {
     const user = yield call(handleAuthentication);
     yield put({ type: USER_PROFILE_LOADED, user });
-    console.log(user.profile.sub, usersRef)
     const firebaseUser = yield call(checkIfUserExists, user.profile.sub)
-    console.log(firebaseUser)
-    if (firebaseUser)
+    console.log(firebaseUser.val())
+    if (firebaseUser.val())
         yield put({ type: FIREBASE_PROFILE_LOADED, firebaseUser})
-    else
+    else 
         createUserInFirebase(user)
 }
 
 function checkIfUserExists(userID) {
     return usersRef.child(userID).once('value')
-    // .then(snapshot => {
-    //     snapshot.val()
-    // })
 }
 
 
