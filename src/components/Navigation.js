@@ -27,8 +27,8 @@ export default ({ user }) => (
         <Link className="btn btn-primary" to="/">
             To-Do List
       </Link>
-        <Link className="btn btn-secondary" to="/new-item">
-            + Add New
+      <Link className="btn btn-secondary" to="/new-item">
+          + Add New
       </Link>
         {!user && <Button onClick={signIn}>Login</Button>}
         {user && (
@@ -40,5 +40,8 @@ export default ({ user }) => (
                 </Profile>
             </Fragment>
         )}
+        <Link className="btn btn-secondary" to="/user-profile">
+          Profile
+      </Link>
     </NavigationBar>
 );

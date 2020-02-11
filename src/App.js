@@ -6,6 +6,7 @@ import Row from 'react-bootstrap/Row';
 import { Route } from 'react-router-dom';
 import Callback from './containers/Callback';
 import NavigationContainer from './containers/NavigationContainer';
+import UserProfileContainer from './containers/ProfileContainer';
 
 class App extends Component {
   render() {
@@ -17,6 +18,7 @@ class App extends Component {
             <NavigationContainer />
             <Route exact path="/"  />
             <Route exact path="/new-item"/>
+            <Route exact path="/user-profile" component={UserProfileContainer} />
             <Route exact path="/callback" component={Callback} />
           </Col>
         </Row>
