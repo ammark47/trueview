@@ -15,6 +15,9 @@ export const usersRef = databaseRef.ref("users");
 
 
 export function createUserInFirebase(userProfile) {
-  console.log("setting", userProfile  )
   usersRef.child(userProfile.profile.sub).set(userProfile)
+}
+
+export function checkIfUserExists(userID) {
+  return usersRef.child(userID).once('value')
 }

@@ -40,8 +40,8 @@ export default ({ user }) => (
                 </Profile>
             </Fragment>
         )}
-        <Link className="btn btn-secondary" to="/user-profile">
-          Profile
+      <Link className="btn btn-secondary" to="/user-profile">
+        Profile
       </Link>
     </NavigationBar>
 );
