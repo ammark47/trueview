@@ -7,6 +7,7 @@ import { Route } from 'react-router-dom';
 import Callback from './containers/Callback';
 import NavigationContainer from './containers/NavigationContainer';
 import UserProfileContainer from './containers/ProfileContainer';
+import { CustomerChat } from './components/CustomerChat';
 
 class App extends Component {
   render() {
@@ -20,6 +21,7 @@ class App extends Component {
             <Route exact path="/new-item"/>
             <Route exact path="/user-profile" component={UserProfileContainer} />
             <Route exact path="/callback" component={Callback} />
+            <Route exact path="/customer-chat" component={CustomerChat} />
           </Col>
         </Row>
       </Container>

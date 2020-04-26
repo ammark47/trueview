@@ -1,6 +1,5 @@
 import React from 'react'
-import Navigation from './Navigation'
-
+import { Link } from 'react-router-dom'
 
 export default ({ user }) => (
     <div>
@@ -11,6 +10,13 @@ export default ({ user }) => (
                 <p>Credits</p>
                 <h2>Recent Chats</h2>
             </div>)
+        }
+        {user &&
+            <div>
+                <Link className="btn btn-secondary" to="/customer-chat">
+                    Customer Chat
+                </Link>
+            </div>
         }
         {!user && 
             (<div>

@@ -13,7 +13,7 @@ export default function authApp(state = initialState, action) {
       case FIREBASE_PROFILE_LOADED:
         return {
           ...state,
-          firebase_user: action.firebaseUser
+          firebase_user: action.firebaseUserVal
         }
       default:
         return state;
