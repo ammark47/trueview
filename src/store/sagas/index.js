@@ -1,27 +1,44 @@
 import { takeLatest } from 'redux-saga/effects';
-import { HANDLE_AUTHENTICATION_CALLBACK, USER_PROFILE_LOADED, FIREBASE_PROFILE_LOADED } from '../actions/auth';
+import { HANDLE_AUTHENTICATION_CALLBACK, USER_PROFILE_LOADED, POSTGRES_PROFILE_LOADED } from '../actions/auth';
 import { handleAuthentication } from '../../Auth0';
 import { all, call, put, takeEvery } from 'redux-saga/effects';
 import { checkIfUserExists, createUserInFirebase } from '../../firebase';
 import { createDevToken } from '../../streamchat';
+import { checkAndInsertUser, insertUserInDB } from '../../models/users';
 
 export function* parseHash() {
     const user = yield call(handleAuthentication);
     yield put({ type: USER_PROFILE_LOADED, user });
-    
-    const firebaseUser = yield call(checkIfUserExists, user.profile.sub)
-    var firebaseUserVal = null
-    if (firebaseUser.val()){
-        firebaseUserVal = firebaseUser.val()
+
+    const postgresUser = yield call(checkAndInsertUser, user)
+    var postgresUserRedux
+
+    if (postgresUser !== undefined) {
+        postgresUserRedux = postgresUser
     }
+    // add streamchat token and create user in postgres
     else {
         const streamChatToken = createDevToken(user.profile.nickname)
-        user.chatToken = streamChatToken
-        createUserInFirebase(user)
-        firebaseUserVal = user
+        user.chatToken = streamChatToken 
+        // insertUserInDB(user)
+        postgresUserRedux = user
     }
-    console.log(firebaseUserVal)
-    yield put({ type: FIREBASE_PROFILE_LOADED, firebaseUserVal})
+
+    yield put({ type: POSTGRES_PROFILE_LOADED, postgresUserRedux })
+    
+    // const firebaseUser = yield call(checkIfUserExists, user.profile.sub)
+    // var firebaseUserVal = null
+    // if (firebaseUser.val()){
+    //     firebaseUserVal = firebaseUser.val()
+    // }
+    // else {
+    //     const streamChatToken = createDevToken(user.profile.nickname)
+    //     user.chatToken = streamChatToken
+    //     createUserInFirebase(user)
+    //     firebaseUserVal = user
+    // }
+    // console.log(firebaseUserVal)
+    // yield put({ type: FIREBASE_PROFILE_LOADED, firebaseUserVal})
 }
 
 
