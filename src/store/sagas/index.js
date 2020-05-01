@@ -26,19 +26,6 @@ export function* parseHash() {
 
     yield put({ type: POSTGRES_PROFILE_LOADED, postgresUserRedux })
     
-    // const firebaseUser = yield call(checkIfUserExists, user.profile.sub)
-    // var firebaseUserVal = null
-    // if (firebaseUser.val()){
-    //     firebaseUserVal = firebaseUser.val()
-    // }
-    // else {
-    //     const streamChatToken = createDevToken(user.profile.nickname)
-    //     user.chatToken = streamChatToken
-    //     createUserInFirebase(user)
-    //     firebaseUserVal = user
-    // }
-    // console.log(firebaseUserVal)
-    // yield put({ type: FIREBASE_PROFILE_LOADED, firebaseUserVal})
 }
 
 
