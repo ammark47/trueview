@@ -14,7 +14,7 @@ export const CustomerChat = () => {
     const chatClient = new StreamChat('bwkz679bfvdm');
 
     useEffect(() => {
-        fetch('/disable-auth')
+        fetch('/chat/disable-auth')
         .then(res => console.log(res))
     }, [])
 
