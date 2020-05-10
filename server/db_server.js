@@ -4,6 +4,7 @@ const port = 8080
 var bodyParser = require('body-parser')
 
 const userModel = require('./db_helpers/user_model')
+const productModel = require('./db_helpers/product_model')
 
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
@@ -14,7 +15,8 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.post('/user', (req, res) => {    
+app.post('/user', (req, res) => {  
+  console.log(req.body)  
   userModel.getInsertUser(req.body)
   .then(response => {
       console.log(response)
@@ -27,7 +29,16 @@ app.post('/user', (req, res) => {
 })
 
 app.post('/product/create', (req, res) => {
-
+  console.log(req.body)
+  productModel.insertNewProduct(req.body)
+  .then(response => {
+    console.log(response)
+    res.status(200).send(response)
+  })
+  .catch(error => {
+    console.error(error)
+    res.status(500).send(error)
+  })
 })
 
 app.listen(port, () => {

@@ -1,8 +1,8 @@
-export const insertNewProduct = (product) => {
+export const insertNewProduct = async (product) => {
     try {
-        return await fetch('/db/product/', {
+        return await fetch('/db/product/create', {
             method: 'POST',
-            body: product,
+            body: JSON.stringify(product),
             headers: {
                 'Content-Type': 'application/json'
             }

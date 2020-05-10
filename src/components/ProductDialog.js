@@ -35,7 +35,7 @@ export const ProductDialog = () => {
 
     useEffect(() => {
         if (!formRendered.current) {
-            setValues({"store": "amazon"});
+            setValues({"store_name": "amazon"});
         }
         formRendered.current = true;
     }, []);
@@ -86,7 +86,7 @@ export const ProductDialog = () => {
                     <div>
                         <FormControl component="fieldset">
                             <FormLabel component="legend">Store Name</FormLabel>
-                            <RadioGroup aria-label="store" name="store" value="amazon" onChange={handleChange}>
+                            <RadioGroup aria-label="store_name" name="store_name" value="amazon" onChange={handleChange}>
                                 <FormControlLabel value="amazon" control={<Radio />} label="Amazon" />
                             </RadioGroup>
                         </FormControl>
@@ -94,9 +94,9 @@ export const ProductDialog = () => {
 
                     <div>
                         <FormControl>
-                            <InputLabel htmlFor="p_id">Product ID</InputLabel>
-                            <Input id="p_id" aria-describedby="p_id" onChange={handleChange}/>
-                            <FormHelperText id="p_id">Enter the product id</FormHelperText>
+                            <InputLabel htmlFor="store_item_id">Product ID</InputLabel>
+                            <Input id="store_item_id" aria-describedby="store_item_id" onChange={handleChange}/>
+                            <FormHelperText id="store_item_id">Enter the product id</FormHelperText>
                         </FormControl>
                     </div>
 
