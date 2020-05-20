@@ -43,6 +43,16 @@ export default ({ user }) => (
                 </Profile>
             </Fragment>
         )}
+      {user && (
+          <Link className="btn btn-secondary" to="/customer">
+            Customer
+          </Link>
+      )}
+      {user && (
+          <Link className="btn btn-secondary" to="/reviewer">
+            Reviewer
+          </Link>
+      )}
       <Link className="btn btn-secondary" to="/user-profile">
         Profile
       </Link>
