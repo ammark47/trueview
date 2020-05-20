@@ -8,6 +8,7 @@ import Callback from './containers/Callback';
 import NavigationContainer from './containers/NavigationContainer';
 import UserProfileContainer from './containers/ProfileContainer';
 import { CustomerChat } from './components/CustomerChat';
+import { Products } from './components/Products';
 
 class App extends Component {
   render() {
@@ -15,11 +16,12 @@ class App extends Component {
       <Container>
         <Row className="row">
           <Col xs={12}>
-          <h1>To Do List</h1>
+          <h1></h1>
             <NavigationContainer />
             <Route exact path="/"  />
             <Route exact path="/new-item"/>
             <Route exact path="/user-profile" component={UserProfileContainer} />
+            <Route exact path="/products" component={Products} />
             <Route exact path="/callback" component={Callback} />
             <Route exact path="/customer-chat" component={CustomerChat} />
           </Col>

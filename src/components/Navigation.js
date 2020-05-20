@@ -30,6 +30,9 @@ export default ({ user }) => (
       <Link className="btn btn-secondary" to="/new-item">
           + Add New
       </Link>
+      <Link className="btn btn-secondary" to="/products">
+        Products
+      </Link>
         {!user && <Button onClick={signIn}>Login</Button>}
         {user && (
             <Fragment>
