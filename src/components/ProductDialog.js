@@ -9,7 +9,7 @@ import DialogContentText from '@material-ui/core/DialogContentText';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import { FormControl, InputLabel, FormHelperText, Input, FormLabel, FormGroup, FormControlLabel, Radio, RadioGroup } from '@material-ui/core';
 
-import { insertNewProduct } from '../models/product';
+import { insertNewProduct, searchAllWalmartProducts } from '../models/product';
 
 const useStyles = makeStyles((theme) =>
     createStyles({

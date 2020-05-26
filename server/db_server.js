@@ -6,6 +6,8 @@ var bodyParser = require('body-parser')
 const userModel = require('./db_helpers/user_model')
 const productModel = require('./db_helpers/product_model')
 
+app.use((req,res,next) => {console.log(req.path); next() })
+
 app.use(bodyParser.json())
 app.use(bodyParser.urlencoded({ extended: true }))
 app.use(function (req, res, next) {

@@ -51,16 +51,20 @@ const generateWalmartHeaders = () => {
     };
 }
 
-(async () => {
-    console.log(generateWalmartHeaders())
 
+const getWalmartProducts = async ( searchQuery, start = 1 ) => {
+    const api = `https://developer.api.walmart.com/api-proxy/service/affil/product/v2/search?query=${searchQuery}&start=${start}`
     const options = {
         method: 'GET',
         headers: generateWalmartHeaders()
     }
-    const response = await fetch('https://developer.api.walmart.com/api-proxy/service/affil/product/v2/search?query=headphones flat wired&start=10', options);
-    const body = await response.json();
 
-    console.log(JSON.stringify(body, null, 4));
-})();
+    const response = await fetch(api, options)
+    return await response.json()
+
+}
+
+module.exports = {
+    getWalmartProducts
+}
 

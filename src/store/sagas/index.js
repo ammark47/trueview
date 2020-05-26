@@ -9,6 +9,7 @@ import { all, call, put, takeEvery, spawn } from 'redux-saga/effects';
 import { checkIfUserExists, createUserInFirebase } from '../../firebase';
 import { createDevToken } from '../../streamchat';
 import { checkAndInsertUser, insertUserInDB } from '../../models/users';
+import { searchAllWalmartProducts, insertNewProduct } from '../../models/product'
 
 export function* parseHash() {
     const user = yield call(handleAuthentication);
@@ -33,7 +34,8 @@ export function* parseHash() {
 }
 
 export function* fetchProductSearch(action) {
-    
+    const allProductsFromWalmart = yield call(searchAllWalmartProducts, action.searchKey)
+    console.log(allProductsFromWalmart)
 }
 
 
