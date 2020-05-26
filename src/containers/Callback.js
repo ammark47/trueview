@@ -5,11 +5,12 @@ import { handleAuthenticationCallback } from '../store/actions/auth';
 
 const mapStateToProps = state => {
   return {
-    user: state.user
+    user: state.authReducer.user
   };
 };
 
 let Callback = ({ dispatch, user }) => {
+  console.log(user)
   if (user) return <Redirect to="/" />;
   dispatch(handleAuthenticationCallback());
 

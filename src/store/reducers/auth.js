@@ -3,7 +3,7 @@ import { USER_PROFILE_LOADED, POSTGRES_PROFILE_LOADED } from '../actions/auth';
 const initialState = {
   };
 
-export default function authApp(state = initialState, action) {
+export const authReducer = (state = initialState, action) => {
     switch (action.type) {  
       case USER_PROFILE_LOADED:
         return {
