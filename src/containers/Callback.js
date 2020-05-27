@@ -10,7 +10,6 @@ const mapStateToProps = state => {
 };
 
 let Callback = ({ dispatch, user }) => {
-  console.log(user)
   if (user) return <Redirect to="/" />;
   dispatch(handleAuthenticationCallback());
 
