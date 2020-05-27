@@ -5,6 +5,8 @@ import { handleSearchProduct } from '../store/actions/products'
 import { useDispatch } from 'react-redux'
 import { CreateProduct } from './CreateProduct'
 
+import GridContainer from "custom_components/Grid/GridContainer.js"
+
 
 export const CreateReview = () => {
     const user = useSelector(state => state.postgres_user)
@@ -22,9 +24,14 @@ export const CreateReview = () => {
     return (
         <>
             <TextField id="product-name" label="Outlined" variant="outlined" onChange={handleChange}/>
-            {products && products.map(product => 
-                <CreateProduct product key={product.itemId}/>
-            )}
+            <GridContainer direction="row" justify="space-evenly" alignItems="flex-start">
+                {products && products.map(product =>     
+                            <CreateProduct {...product} key={product.itemId} />
+                )
+                }
+            </GridContainer>
+            
+            
         </>
     )
 }

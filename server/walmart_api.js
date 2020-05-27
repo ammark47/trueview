@@ -53,7 +53,7 @@ const generateWalmartHeaders = () => {
 
 
 const getWalmartProducts = async ( searchQuery, start = 1 ) => {
-    const api = `https://developer.api.walmart.com/api-proxy/service/affil/product/v2/search?query=${searchQuery}&start=${start}`
+    const api = `https://developer.api.walmart.com/api-proxy/service/affil/product/v2/search?query=${searchQuery}&start=${start}&numItems=12`
     const options = {
         method: 'GET',
         headers: generateWalmartHeaders()
