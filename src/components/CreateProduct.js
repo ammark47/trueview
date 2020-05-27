@@ -10,16 +10,20 @@ import imagesStyles from "../assets/jss/material-kit-react/imagesStyles.js";
 
 import { cardTitle } from "../assets/jss/material-kit-react.js";
 import GridItem from "custom_components/Grid/GridItem.js"
+import { Link } from "react-router-dom";
 
 
 const styles = {
-...imagesStyles,
-cardTitle,
+    ...imagesStyles,
+    cardTitle,
+    createReviewLink: {
+        textDecoration: 'none'
+    }
 };
 
 const useStyles = makeStyles(styles);
 
-export const CreateProduct = (product) => {
+export const CreateProduct = ( product ) => {
     const classes = useStyles();
     console.log(product)
     return (
@@ -28,13 +32,19 @@ export const CreateProduct = (product) => {
             <img
                 style={{height: "180px", width: "100%", display: "block"}}
                 className={classes.imgCardTop}
-                src="..."
+                src={product.largeImage}
                 alt="Card-img-cap"
             />
             <CardBody>
                 <h4 className={classes.cardTitle}>Card title</h4>
-                <p>Some quick example text to build on the card title and make up the bulk of the card's content.</p>
-                <Button color="primary">Do something</Button>
+                <p>{product.name}</p>
+                <Link to={{
+                    pathname: "/reviewer/create-review/checkout",
+                    state: { product: product }
+                 }}
+                 className={classes.createReviewLink}>
+                    <Button color="primary">Create Review</Button>
+                </Link>
             </CardBody>
             </Card>
         </GridItem>

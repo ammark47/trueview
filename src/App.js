@@ -12,7 +12,7 @@ import { Products } from './components/Products';
 import { Reviewer } from "./components/Reviewer";
 import { CreateReview } from "./components/CreateReview";
 
-// import "./assets/scss/material-kit-react.scss"
+import Checkout from './components/Checkout'
 
 class App extends Component {
   render() {
@@ -29,7 +29,8 @@ class App extends Component {
             <Route exact path="/callback" component={Callback} />
             <Route exact path="/customer-chat" component={CustomerChat} />
             <Route exact path="/reviewer" component={Reviewer} />
-            <Route exact path="/reviewer/create_review" component={CreateReview} />
+            <Route exact path="/reviewer/create-review" component={CreateReview} />
+            <Route exact path="/reviewer/create-review/checkout" component={Checkout} />
           </Col>
         </Row>
       </Container>

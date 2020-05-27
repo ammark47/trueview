@@ -8,7 +8,7 @@ export const Reviewer = () => {
 
     return (
         <>
-            <Link className="btn btn-secondary" to="/reviewer/create_review">
+            <Link className="btn btn-secondary" to="/reviewer/create-review">
                 Create Review
             </Link>
         </>
