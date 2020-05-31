@@ -25,7 +25,7 @@ const useStyles = makeStyles(styles);
 
 export const CreateProduct = ( product ) => {
     const classes = useStyles();
-    console.log(product)
+
     return (
         <GridItem xs={4} md={4}>
             <Card style={{width: "20rem"}}>

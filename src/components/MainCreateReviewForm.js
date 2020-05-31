@@ -1,75 +1,50 @@
 import React from 'react';
 import Grid from '@material-ui/core/Grid';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
-export default function AddressForm() {
+import { TextField } from 'mui-rff';
+
+
+export const MainCreateReviewForm = () => {
   return (
     <React.Fragment>
       <Typography variant="h6" gutterBottom>
-        Shipping address
+        Create Review
       </Typography>
       <Grid container spacing={3}>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="firstName"
-            name="firstName"
-            label="First name"
-            fullWidth
-            autoComplete="given-name"
-          />
-        </Grid>
-        <Grid item xs={12} sm={6}>
-          <TextField
-            required
-            id="lastName"
-            name="lastName"
-            label="Last name"
-            fullWidth
-            autoComplete="family-name"
-          />
-        </Grid>
         <Grid item xs={12}>
           <TextField
             required
-            id="address1"
-            name="address1"
-            label="Address line 1"
+            id="review"
+            name="review"
+            label="Review here..."
+            multiline
             fullWidth
-            autoComplete="shipping address-line1"
+            rows={4}
+            variant="outlined"
           />
         </Grid>
-        <Grid item xs={12}>
-          <TextField
-            id="address2"
-            name="address2"
-            label="Address line 2"
-            fullWidth
-            autoComplete="shipping address-line2"
-          />
-        </Grid>
+        <Typography variant="subtitle1" gutterBottom>
+          FAQ (Common questions and answers you're expecting)
+        </Typography>
         <Grid item xs={12} sm={6}>
           <TextField
             required
-            id="city"
-            name="city"
-            label="City"
+            id="question1"
+            name="question1"
+            label="Question"
             fullWidth
             autoComplete="shipping address-level2"
           />
         </Grid>
         <Grid item xs={12} sm={6}>
-          <TextField id="state" name="state" label="State/Province/Region" fullWidth />
-        </Grid>
-        <Grid item xs={12} sm={6}>
           <TextField
             required
-            id="zip"
-            name="zip"
-            label="Zip / Postal code"
+            id="answer1"
+            name="answer1"
+            label="Answer"
             fullWidth
             autoComplete="shipping postal-code"
           />
@@ -77,9 +52,19 @@ export default function AddressForm() {
         <Grid item xs={12} sm={6}>
           <TextField
             required
-            id="country"
-            name="country"
-            label="Country"
+            id="question2"
+            name="question2"
+            label="Question"
+            fullWidth
+            autoComplete="shipping postal-code"
+          />
+        </Grid>
+        <Grid item xs={12} sm={6}>
+          <TextField
+            required
+            id="answer2"
+            name="answer2"
+            label="Answer"
             fullWidth
             autoComplete="shipping country"
           />

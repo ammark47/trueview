@@ -5,6 +5,7 @@ var bodyParser = require('body-parser')
 
 const userModel = require('./db_helpers/user_model')
 const productModel = require('./db_helpers/product_model')
+const reviewModel = require('./db_helpers/review_model')
 
 app.use((req,res,next) => {console.log(req.path); next() })
 
@@ -41,6 +42,18 @@ app.post('/product/create', (req, res) => {
     console.error(error)
     res.status(500).send(error)
   })
+})
+
+app.post('/reviews/create', (req, res) => {
+  reviewModel.insertNewReview(req.body)
+  .then(response => {
+    res.status(200).send(response)
+  })
+  .catch(error => {
+    console.error(error)
+    res.status(500).send(error)
+  })
+
 })
 
 app.listen(port, () => {

@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -10,9 +10,13 @@ import StepLabel from '@material-ui/core/StepLabel';
 import Button from '@material-ui/core/Button';
 import Link from '@material-ui/core/Link';
 import Typography from '@material-ui/core/Typography';
-import AddressForm from './AddressForm';
-import PaymentForm from './PaymentForm';
-import Review from './Review';
+import { MainCreateReviewForm } from './MainCreateReviewForm';
+import { AdditionalDetailsReviewForm } from './AdditionalDetailsReviewForm';
+import { FinalizeReview } from './FinalizeReview';
+
+import { Form } from 'react-final-form';
+import { insertNewReview } from 'models/reviews';
+
 
 function Copyright() {
   return (
@@ -64,34 +68,48 @@ const useStyles = makeStyles((theme) => ({
   },
 }));
 
-const steps = ['Shipping address', 'Payment details', 'Review your order'];
+const steps = ['Write the Review', 'Additional Details', 'Finalize Your Review'];
 
-function getStepContent(step) {
+function getStepContent(step, handleImageSubmit, values, image) {
   switch (step) {
     case 0:
-      return <AddressForm />;
+      return <MainCreateReviewForm />;
     case 1:
-      return <PaymentForm />;
+      return <AdditionalDetailsReviewForm handleImageSubmit={handleImageSubmit}/>;
     case 2:
-      return <Review />;
+      return <FinalizeReview reviewInfo={values} image={image}/>;
     default:
       throw new Error('Unknown step');
   }
 }
 
-export default function Checkout(props) {
+export const ReviewForm = (props) => {
   const classes = useStyles();
-  const [activeStep, setActiveStep] = React.useState(0);
+  const [activeStep, setActiveStep] = useState(0);
+  const [image, setImage] = useState({ preview: "", raw: "" }) 
   const product = props.location.state.product
 
   const handleNext = () => {
-    setActiveStep(activeStep + 1);
+    setActiveStep(activeStep + 1)
   };
 
   const handleBack = () => {
     setActiveStep(activeStep - 1);
   };
 
+  const handleSubmit = (values) => {
+    const formValues = {...values, product: product, image}
+    setActiveStep(activeStep + 1)
+    insertNewReview(formValues)
+  }
+
+  const handleImageSubmit = (e) => {
+    e.preventDefault()
+    setImage({
+      preview: URL.createObjectURL(e.target.files[0]),
+      raw: e.target.files[0]
+    }) 
+  }
 
   return (
     <React.Fragment>
@@ -106,7 +124,7 @@ export default function Checkout(props) {
       <main className={classes.layout}>
         <Paper className={classes.paper}>
           <Typography component="h1" variant="h4" align="center">
-            Checkout
+            Write a Review
           </Typography>
           <Stepper activeStep={activeStep} className={classes.stepper}>
             {steps.map((label) => (
@@ -128,22 +146,37 @@ export default function Checkout(props) {
               </React.Fragment>
             ) : (
               <React.Fragment>
-                {getStepContent(activeStep)}
-                <div className={classes.buttons}>
-                  {activeStep !== 0 && (
-                    <Button onClick={handleBack} className={classes.button}>
-                      Back
-                    </Button>
-                  )}
-                  <Button
-                    variant="contained"
-                    color="primary"
-                    onClick={handleNext}
-                    className={classes.button}
-                  >
-                    {activeStep === steps.length - 1 ? 'Place order' : 'Next'}
-                  </Button>
-                </div>
+                <Form
+                onSubmit={handleSubmit}
+                initialValues={{ rating: "3" }}
+                render={({ handleSubmit, values }) => (
+                  <form onSubmit={handleSubmit} noValidate>
+                    {getStepContent(activeStep, handleImageSubmit, values, image)}
+                    <div className={classes.buttons}>
+                      {activeStep !== 0 && (
+                        <Button onClick={handleBack} className={classes.button}>
+                          Back
+                        </Button>
+                      )}
+                      {activeStep === steps.length - 1 ? (
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={handleSubmit}
+                          className={classes.button}
+                        > Submit Review </Button>
+                      ) : (
+                        <Button
+                          variant="contained"
+                          color="primary"
+                          onClick={handleNext}
+                          className={classes.button}
+                        > Next </Button>
+                      )}
+                    </div>
+                  </form>
+                )}
+                />
               </React.Fragment>
             )}
           </React.Fragment>
