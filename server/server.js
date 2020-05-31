@@ -1,34 +1,26 @@
 const express = require('express')
 const app = express()
-const StreamChat = require('stream-chat').StreamChat;
+const port = 5000
 
-const port = 4000
+const walmart = require('./walmart_api')
 
-const client = new StreamChat('bwkz679bfvdm', 'hz9bn8s88bxqu9nkq6x7dsq4j3ptewqwyffgjuj984xvrqz8ajgp4sd65w8sf5y8');   
 
-app.get('/', (req, res) => res.send('Hello World!'))
+app.use(function (req, res, next) {
+    res.setHeader('Access-Control-Allow-Origin', 'http://localhost:3000');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,DELETE,OPTIONS');
+    res.setHeader('Access-Control-Allow-Headers', 'Content-Type, Access-Control-Allow-Headers');
+    next();
+});
 
-app.get('/disable-auth', async (req, res, next) =>{
+app.get('/walmart/products/:searchQuery', async (req, res) => {
+    const { searchQuery, start } = req.params
     try {
-        const disable = await client.updateAppSettings({
-            disable_auth_checks: true,
-        });    
-
-        res.send(disable)
+        const items = await walmart.getWalmartProducts(searchQuery, start)
+        console.log(items)
+        res.status(200).json(items)
     } catch (error) {
-        next(error)
-    }
-})
-
-app.get('/channels/:userid', async (req, res, next) => {
-    try {
-        const filter = { type: 'messaging', members: { $in: [req.params.userid] } };
-        const channels = await client.queryChannels(filter);
-        console.log(channels)
-        res.send(channels)
-    } catch (error) {
-        next(error)
-    }
+        res.status(500).send(error)
+    }  
 })
 
 app.listen(port, () => console.log(`Example app listening at http://localhost:${port}`))

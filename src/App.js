@@ -9,6 +9,9 @@ import NavigationContainer from './containers/NavigationContainer';
 import UserProfileContainer from './containers/ProfileContainer';
 import { CustomerChat } from './components/CustomerChat';
 import { Products } from './components/Products';
+import { Reviewer } from "./components/Reviewer";
+import { CreateReview } from "./components/CreateReview";
+import { ReviewForm } from './components/ReviewForm'
 
 class App extends Component {
   render() {
@@ -24,6 +27,9 @@ class App extends Component {
             <Route exact path="/products" component={Products} />
             <Route exact path="/callback" component={Callback} />
             <Route exact path="/customer-chat" component={CustomerChat} />
+            <Route exact path="/reviewer" component={Reviewer} />
+            <Route exact path="/reviewer/create-review" component={CreateReview} />
+            <Route exact path="/reviewer/create-review/checkout" component={ReviewForm} />
           </Col>
         </Row>
       </Container>

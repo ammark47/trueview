@@ -10,6 +10,8 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
+    "node-fetch": "2.6.0",
+    "node-rsa": "1.0.8",
     "pg": "^8.0.3",
     "pg-promise": "^10.5.2"
   }

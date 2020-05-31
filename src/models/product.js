@@ -11,3 +11,14 @@ export const insertNewProduct = async (product) => {
         console.error(error)
     }
 }
+
+export const searchAllWalmartProducts = async ( searchKey ) => {
+    try {
+        const response = await fetch('/api/walmart/products/' + searchKey)
+        const listOfProductsJson = await response.json()
+
+        return listOfProductsJson["items"]
+    } catch (error) {
+        console.error(error)
+    }
+}
