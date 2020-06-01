@@ -24,15 +24,6 @@ const ProfilePicture = styled.img`
 
 export default ({ user }) => (
     <NavigationBar>
-        <Link className="btn btn-primary" to="/">
-            To-Do List
-      </Link>
-      <Link className="btn btn-secondary" to="/new-item">
-          + Add New
-      </Link>
-      <Link className="btn btn-secondary" to="/products">
-        Products
-      </Link>
         {!user && <Button onClick={signIn}>Login</Button>}
         {user && (
             <Fragment>
@@ -44,17 +35,20 @@ export default ({ user }) => (
             </Fragment>
         )}
       {user && (
+        <>
           <Link className="btn btn-secondary" to="/customer">
             Customer
           </Link>
-      )}
-      {user && (
           <Link className="btn btn-secondary" to="/reviewer">
             Reviewer
           </Link>
+          <Link className="btn btn-secondary" to="/user-profile">
+            Profile
+          </Link>
+          <Link className="btn btn-secondary" to="/products">
+            Products
+          </Link>
+        </>
       )}
-      <Link className="btn btn-secondary" to="/user-profile">
-        Profile
-      </Link>
     </NavigationBar>
 );

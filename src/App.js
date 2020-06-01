@@ -1,9 +1,9 @@
 import React, { Component } from 'react';
 import Container from 'react-bootstrap/Container';
-import Button from 'react-bootstrap/Button';
 import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { Route } from 'react-router-dom';
+import { ProtectedRoute } from './components/ProtectedRoute'
 import Callback from './containers/Callback';
 import NavigationContainer from './containers/NavigationContainer';
 import UserProfileContainer from './containers/ProfileContainer';
@@ -22,14 +22,19 @@ class App extends Component {
           <h1></h1>
             <NavigationContainer />
             <Route exact path="/"  />
-            <Route exact path="/new-item"/>
             <Route exact path="/user-profile" component={UserProfileContainer} />
             <Route exact path="/products" component={Products} />
             <Route exact path="/callback" component={Callback} />
             <Route exact path="/customer-chat" component={CustomerChat} />
-            <Route exact path="/reviewer" component={Reviewer} />
-            <Route exact path="/reviewer/create-review" component={CreateReview} />
-            <Route exact path="/reviewer/create-review/checkout" component={ReviewForm} />
+            <ProtectedRoute exact path="/reviewer">
+              <Reviewer/>
+            </ProtectedRoute>
+            <ProtectedRoute exact path="/reviewer/create-review">
+              <CreateReview />
+            </ProtectedRoute>
+            <ProtectedRoute exact path="/reviewer/create-review/checkout">
+              <ReviewForm />
+            </ProtectedRoute>
           </Col>
         </Row>
       </Container>
