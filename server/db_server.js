@@ -19,11 +19,9 @@ app.use(function (req, res, next) {
 });
 
 app.post('/user', (req, res) => {  
-  console.log(req.body)  
   userModel.getInsertUser(req.body)
   .then(response => {
-      console.log(response)
-      res.status(200).send(response)
+      res.status(200).json(response)
   })
   .catch(error => {
       console.error(error)

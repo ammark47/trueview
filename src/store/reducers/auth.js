@@ -13,7 +13,7 @@ export const authReducer = (state = initialState, action) => {
       case POSTGRES_PROFILE_LOADED:
         return {
           ...state,
-          postgres_user: action.postgresReduxUser
+          postgres_user: action.userInfoPostgres
         }
       default:
         return state;
