@@ -4,6 +4,9 @@ import styled from 'styled-components';
 import { Fragment } from 'react';
 import Button from 'react-bootstrap/Button';
 import { signIn, signOut } from '../Auth0';
+import { userLogoutAction } from '../store/actions/auth'
+import { useDispatch, useSelector } from 'react-redux';
+import { persistor } from 'store/configueStore';
 
 const NavigationBar = styled.div`
   margin-bottom: 15px;
@@ -21,40 +24,44 @@ const ProfilePicture = styled.img`
 `;
 
 
+export default () => {
+  const dispatch = useDispatch()
+  const loggedIn = useSelector(state => state.authReducer.loggedIn)
+  const user = useSelector(state => state.authReducer.user)
 
-export default ({ user }) => (
+  const handleLogOut = async () => {
+    signOut()
+    await persistor.purge()
+    dispatch(userLogoutAction())
+  }
+  
+  return (
     <NavigationBar>
-        <Link className="btn btn-primary" to="/">
-            To-Do List
-      </Link>
-      <Link className="btn btn-secondary" to="/new-item">
-          + Add New
-      </Link>
-      <Link className="btn btn-secondary" to="/products">
-        Products
-      </Link>
-        {!user && <Button onClick={signIn}>Login</Button>}
-        {user && (
-            <Fragment>
-                <Button onClick={signOut}>Logout</Button>
-                <Profile>
-                    <ProfilePicture src={user.profile.picture} />
-                    {user.profile.email}
-                </Profile>
-            </Fragment>
-        )}
-      {user && (
+      {!loggedIn && <Button onClick={signIn}>Login</Button>}
+      {loggedIn && (
+          <Fragment>
+              <Button onClick={handleLogOut}>Logout</Button>
+              <Profile>
+                  <ProfilePicture src={user.profile.picture} />
+                  {user.profile.email}
+              </Profile>
+          </Fragment>
+      )}
+      {loggedIn && (
+        <>
           <Link className="btn btn-secondary" to="/customer">
             Customer
           </Link>
-      )}
-      {user && (
           <Link className="btn btn-secondary" to="/reviewer">
             Reviewer
           </Link>
+          <Link className="btn btn-secondary" to="/user-profile">
+            Profile
+          </Link>
+          <Link className="btn btn-secondary" to="/products">
+            Products
+          </Link>
+        </>
       )}
-      <Link className="btn btn-secondary" to="/user-profile">
-        Profile
-      </Link>
     </NavigationBar>
-);
+)}

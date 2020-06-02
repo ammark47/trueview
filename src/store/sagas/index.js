@@ -6,31 +6,15 @@ import { handleAuthentication } from '../../Auth0';
 import { SEARCH_PRODUCT_REQUEST, SEARCH_PRODUCT_SUCCESS } from '../actions/products'
 
 import { all, call, put, takeEvery, spawn } from 'redux-saga/effects';
-import { checkIfUserExists, createUserInFirebase } from '../../firebase';
-import { createDevToken } from '../../streamchat';
-import { checkAndInsertUser, insertUserInDB } from '../../models/users';
-import { searchAllWalmartProducts, insertNewProduct } from '../../models/product'
+import { searchAllWalmartProducts } from '../../models/product'
+import { checkAndInsertUser } from 'models/users';
 
 export function* parseHash() {
-    const user = yield call(handleAuthentication);
-    yield put({ type: USER_PROFILE_LOADED, user });
+    const user = yield call(handleAuthentication)
+    yield put({ type: USER_PROFILE_LOADED, user })
 
-    // const postgresUser = yield call(checkAndInsertUser, user)
-    // var postgresUserRedux
-
-    // if (postgresUser !== undefined) {
-    //     postgresUserRedux = postgresUser
-    // }
-    // // add streamchat token and create user in postgres
-    // else {
-    //     const streamChatToken = createDevToken(user.profile.nickname)
-    //     user.chatToken = streamChatToken 
-    //     // insertUserInDB(user)
-    //     postgresUserRedux = user
-    // }
-
-    // yield put({ type: POSTGRES_PROFILE_LOADED, postgresUserRedux })
-    
+    const userInfoPostgres = yield call(checkAndInsertUser, user)
+    yield put({ type: POSTGRES_PROFILE_LOADED, userInfoPostgres })
 }
 
 export function* fetchProductSearch(action) {
@@ -40,9 +24,7 @@ export function* fetchProductSearch(action) {
     } catch (err) {
         console.error(err)
     }
-    
 }
-
 
 export function* handleAuthenticationCallback() {
     yield takeLatest(HANDLE_AUTHENTICATION_CALLBACK, parseHash);
@@ -53,7 +35,6 @@ export function* handleSearchRequest() {
 }
 
 export default function* rootSaga() {
-    // yield all([handleAuthenticationCallback()]);
     yield spawn(handleAuthenticationCallback)
     yield spawn(handleSearchRequest)
 

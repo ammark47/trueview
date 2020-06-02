@@ -39,5 +39,5 @@ export function signOut() {
   auth0Client.logout({
     returnTo: 'http://localhost:3000',
     clientID: 'TCooomK1xTn5yK0r5qrpbjiVM6o3ouGy'
-  });
+  })
 }
