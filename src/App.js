@@ -4,8 +4,8 @@ import Col from 'react-bootstrap/Col';
 import Row from 'react-bootstrap/Row';
 import { Route } from 'react-router-dom';
 import { ProtectedRoute } from './components/ProtectedRoute'
-import { Callback } from './containers/Callback';
-import UserProfileContainer from './containers/ProfileContainer';
+import { Callback } from './components/Callback';
+import { UserProfile } from './components/UserProfile'
 import { CustomerChat } from './components/CustomerChat';
 import { Products } from './components/Products';
 import { Reviewer } from "./components/Reviewer";
@@ -22,7 +22,7 @@ class App extends Component {
           <h1></h1>
             <Navigation />
             <Route exact path="/"  />
-            <Route exact path="/user-profile" component={UserProfileContainer} />
+            <Route exact path="/user-profile" component={UserProfile} />
             <Route exact path="/products" component={Products} />
             <Route exact path="/callback" component={Callback} />
             <Route exact path="/customer-chat" component={CustomerChat} />
