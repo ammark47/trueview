@@ -24,6 +24,7 @@ class App extends Component {
             <Route exact path="/"  />
             <Route exact path="/user-profile" component={UserProfile} />
             <Route exact path="/products" component={Products} />
+            <Route exact path="/products/:productId" component={Products} />
             <Route exact path="/callback" component={Callback} />
             <Route exact path="/customer-chat" component={CustomerChat} />
             <ProtectedRoute exact path="/reviewer">

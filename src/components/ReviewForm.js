@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -87,7 +88,7 @@ export const ReviewForm = (props) => {
   const classes = useStyles();
   const [activeStep, setActiveStep] = useState(0);
   const [image, setImage] = useState({ preview: "", raw: "" }) 
-  const product = props.location.state.product
+  const product = useSelector(state => state.searchProductsReducer.productToReview)
 
   const handleNext = () => {
     setActiveStep(activeStep + 1)
@@ -186,3 +187,9 @@ export const ReviewForm = (props) => {
     </React.Fragment>
   );
 }
+
+/*
+TODO
+
+exit component if product does not exist in store
+*/

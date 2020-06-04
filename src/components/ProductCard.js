@@ -11,9 +11,6 @@ import imagesStyles from "../assets/jss/material-kit-react/imagesStyles.js";
 import { cardTitle } from "../assets/jss/material-kit-react.js";
 import GridItem from "custom_components/Grid/GridItem.js"
 import { Link } from "react-router-dom";
-import { useDispatch } from "react-redux";
-
-import { addProductReviewCart } from '../store/actions/products'
 
 
 const styles = {
@@ -26,14 +23,8 @@ const styles = {
 
 const useStyles = makeStyles(styles);
 
-export const CreateProduct = ( product ) => {
+export const ProductCard = ( product ) => {
     const classes = useStyles();
-    const dispatch = useDispatch()
-
-    const handleClick = (e) => {
-        e.preventDefault()
-        dispatch(addProductReviewCart(product))
-    }
 
     return (
         <GridItem xs={4} md={4}>
@@ -47,11 +38,8 @@ export const CreateProduct = ( product ) => {
             <CardBody>
                 <h4 className={classes.cardTitle}>Card title</h4>
                 <p>{product.name}</p>
-                <Link to={{
-                    pathname: "/reviewer/create-review/checkout",
-                 }}
-                 className={classes.createReviewLink}>
-                    <Button color="primary" onClick={handleClick}>Create Review</Button>
+                <Link to={"/products/" + product.id} className={classes.createReviewLink}>
+                    <Button color="primary">Create Review</Button>
                 </Link>
             </CardBody>
             </Card>
