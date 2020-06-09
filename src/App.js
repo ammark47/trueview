@@ -12,6 +12,7 @@ import { Reviewer } from "./components/Reviewer";
 import { CreateReview } from "./components/CreateReview";
 import { ReviewForm } from './components/ReviewForm'
 import Navigation from 'components/Navigation';
+import { ProductReviewerList } from 'components/ProductReviewerList';
 
 class App extends Component {
   render() {
@@ -24,7 +25,7 @@ class App extends Component {
             <Route exact path="/"  />
             <Route exact path="/user-profile" component={UserProfile} />
             <Route exact path="/products" component={Products} />
-            <Route exact path="/products/:productId" component={Products} />
+            <Route exact path="/products/:productId" component={ProductReviewerList} />
             <Route exact path="/callback" component={Callback} />
             <Route exact path="/customer-chat" component={CustomerChat} />
             <ProtectedRoute exact path="/reviewer">
