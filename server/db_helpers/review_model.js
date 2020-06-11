@@ -2,8 +2,7 @@ const db = require('./index')
 
 const productModel = require('./product_model')
 
-async function insertNewReview(reviewData){
-    reviewData.userId = '1'
+const insertNewReview = async (reviewData) => {
     return db.task('getInsertReview', async t => {
         const { id: productId } = await productModel.insertNewProduct(reviewData.product)
         reviewData.productId = productId
@@ -12,6 +11,20 @@ async function insertNewReview(reviewData){
     })
 }
 
-module.exports = {
-    insertNewReview
+const getReviewersFromProductId = async (productId) => {
+    try {
+        const reviewerAndUserInfo = await db.any('SELECT review.id, review.product_id, review.user_id, review.review_text, review.rating FROM review JOIN users ON users.id = review.user_id WHERE product_id = $1', [productId])
+        return reviewerAndUserInfo
+    } catch (e) {
+        console.log('error', e)
+        return e
+    }
 }
+
+module.exports = {
+    insertNewReview,
+    getReviewersFromProductId
+}
+
+
+// TODO: return false or error when review already exists for user

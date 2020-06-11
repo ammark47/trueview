@@ -1,6 +1,6 @@
 export const checkAndInsertUser = async (userData) => {
     try {
-        const response = await fetch('/db/user/', {
+        const response = await fetch('/db/users/', {
             method: 'POST',
             body: JSON.stringify(userData),
             headers: {

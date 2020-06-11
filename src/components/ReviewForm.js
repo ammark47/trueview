@@ -1,4 +1,5 @@
 import React, { useState } from 'react';
+import { useSelector } from 'react-redux'
 import { makeStyles } from '@material-ui/core/styles';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import AppBar from '@material-ui/core/AppBar';
@@ -85,9 +86,10 @@ function getStepContent(step, handleImageSubmit, values, image) {
 
 export const ReviewForm = (props) => {
   const classes = useStyles();
+  const user = useSelector(state => state.authReducer.postgres_user)
   const [activeStep, setActiveStep] = useState(0);
   const [image, setImage] = useState({ preview: "", raw: "" }) 
-  const product = props.location.state.product
+  const product = useSelector(state => state.searchProductsReducer.productToReview)
 
   const handleNext = () => {
     setActiveStep(activeStep + 1)
@@ -98,7 +100,8 @@ export const ReviewForm = (props) => {
   };
 
   const handleSubmit = (values) => {
-    const formValues = {...values, product: product, image}
+    const formValues = {...values, product: product, image, userId: user.id}
+
     setActiveStep(activeStep + 1)
     insertNewReview(formValues)
   }
@@ -186,3 +189,9 @@ export const ReviewForm = (props) => {
     </React.Fragment>
   );
 }
+
+/*
+TODO
+
+exit component if product does not exist in store
+*/

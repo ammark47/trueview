@@ -18,7 +18,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.post('/user', (req, res) => {  
+app.post('/users', (req, res) => {  
   userModel.getInsertUser(req.body)
   .then(response => {
       res.status(200).json(response)
@@ -29,18 +29,47 @@ app.post('/user', (req, res) => {
   })
 })
 
-app.post('/product/create', (req, res) => {
-  console.log(req.body)
-  productModel.insertNewProduct(req.body)
+app.get('/users/:userId/chat-currency', (req, res) => {
+  const { userId } = req.params
+  console.log(userId)
+  userModel.getChatCurrencyCount(userId)
   .then(response => {
     console.log(response)
     res.status(200).send(response)
   })
   .catch(error => {
-    console.error(error)
+    console.error('error', error)
     res.status(500).send(error)
   })
 })
+
+app.get('/products', (req, res) => {
+  const { search } = req.query
+  console.log(search) 
+  productModel.getReviewedProducts(search)
+    .then(response => {
+      console.log(response)
+      res.status(200).send(response)
+    })
+    .catch(error => {
+      console.error('error', error)
+      res.status(500).send(error)
+    })
+})
+
+app.get('/reviews/:productId', (req, res) => {
+  const { productId } = req.params
+  reviewModel.getReviewersFromProductId(productId)
+    .then(response => {
+      console.log(response)
+      res.status(200).send(response)
+    })
+    .catch(error => {
+      console.error('error', error)
+      res.status(500).send(error)
+    })
+})
+
 
 app.post('/reviews/create', (req, res) => {
   reviewModel.insertNewReview(req.body)
@@ -51,7 +80,6 @@ app.post('/reviews/create', (req, res) => {
     console.error(error)
     res.status(500).send(error)
   })
-
 })
 
 app.listen(port, () => {
