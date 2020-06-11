@@ -1,4 +1,6 @@
 import React from "react";
+import { useSelector } from 'react-redux'
+import { requestChat } from '../models/reviews'
 
 import GridContainer from 'custom_components/Grid/GridContainer'
 import GridItem from 'custom_components/Grid/GridItem'
@@ -16,7 +18,12 @@ const useStyles = makeStyles(() => ({
 }))
 
 export const ReviewerListItem = ( reviewer ) => {
-    const classes = useStyles();
+    const classes = useStyles()
+    const customer = useSelector(state => state.authReducer.postgres_user)
+
+    const handleClick = () => {
+        requestChat(customer.id, reviewer.user_id, reviewer.product_id)
+    }
     
     return (
         <ListItem alignItems="flex-start" divider>
@@ -32,7 +39,7 @@ export const ReviewerListItem = ( reviewer ) => {
                 </GridItem>
                 <GridItem xs={3} align="center">
                     <Link to={"/products/" + reviewer.product_id + '/' } className={classes.createReviewLink}>
-                        <Button color="primary">Find Reviewers</Button>
+                        <Button color="primary" onClick={handleClick}>Check This Reviewer</Button>
                     </Link>
                 </GridItem>
             </GridContainer>

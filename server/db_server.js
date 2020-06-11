@@ -18,7 +18,7 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.post('/user', (req, res) => {  
+app.post('/users', (req, res) => {  
   userModel.getInsertUser(req.body)
   .then(response => {
       res.status(200).json(response)
@@ -26,6 +26,20 @@ app.post('/user', (req, res) => {
   .catch(error => {
       console.error(error)
       res.status(500).send(error)
+  })
+})
+
+app.get('/users/:userId/chat-currency', (req, res) => {
+  const { userId } = req.params
+  console.log(userId)
+  userModel.getChatCurrencyCount(userId)
+  .then(response => {
+    console.log(response)
+    res.status(200).send(response)
+  })
+  .catch(error => {
+    console.error('error', error)
+    res.status(500).send(error)
   })
 })
 
