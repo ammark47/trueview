@@ -32,7 +32,7 @@ export const Products = () => {
             <GridItem>
                 <GridContainer>
                     {products && products.map(product => 
-                            <ProductCard {...product} key={product.itemId}/>
+                            <ProductCard {...product} key={product.id}/>
                     )}
                 </GridContainer>
             </GridItem>

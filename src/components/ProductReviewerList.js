@@ -1,7 +1,7 @@
 import React from 'react'
 import GridContainer from 'custom_components/Grid/GridContainer'
 import GridItem from 'custom_components/Grid/GridItem'
-import { Container, TextField, makeStyles, Typography, Paper } from '@material-ui/core'
+import { Container, TextField, makeStyles, Typography, Paper, List } from '@material-ui/core'
 import Image from 'material-ui-image'
 import { grayColor } from 'assets/jss/material-kit-react'
 import Rating from '@material-ui/lab/Rating'
@@ -57,7 +57,9 @@ export const ProductReviewerList = () => {
             <GridItem>
                 <GridContainer className={classes.root} direction="column" >
                         <Paper elevation={2}>
-                            <ReviewerList />
+                            <List >
+                                <ReviewerList />
+                            </List>
                         </Paper>
                 </GridContainer>
             </GridItem>

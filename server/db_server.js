@@ -43,6 +43,20 @@ app.get('/products', (req, res) => {
     })
 })
 
+app.get('/reviews/:productId', (req, res) => {
+  const { productId } = req.params
+  reviewModel.getReviewersFromProductId(productId)
+    .then(response => {
+      console.log(response)
+      res.status(200).send(response)
+    })
+    .catch(error => {
+      console.error('error', error)
+      res.status(500).send(error)
+    })
+})
+
+
 app.post('/reviews/create', (req, res) => {
   reviewModel.insertNewReview(req.body)
   .then(response => {
@@ -52,7 +66,6 @@ app.post('/reviews/create', (req, res) => {
     console.error(error)
     res.status(500).send(error)
   })
-
 })
 
 app.listen(port, () => {

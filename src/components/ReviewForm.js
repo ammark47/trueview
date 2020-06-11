@@ -86,6 +86,7 @@ function getStepContent(step, handleImageSubmit, values, image) {
 
 export const ReviewForm = (props) => {
   const classes = useStyles();
+  const user = useSelector(state => state.authReducer.postgres_user)
   const [activeStep, setActiveStep] = useState(0);
   const [image, setImage] = useState({ preview: "", raw: "" }) 
   const product = useSelector(state => state.searchProductsReducer.productToReview)
@@ -99,7 +100,8 @@ export const ReviewForm = (props) => {
   };
 
   const handleSubmit = (values) => {
-    const formValues = {...values, product: product, image}
+    const formValues = {...values, product: product, image, userId: user.id}
+
     setActiveStep(activeStep + 1)
     insertNewReview(formValues)
   }

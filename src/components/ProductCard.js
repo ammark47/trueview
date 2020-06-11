@@ -25,7 +25,7 @@ const useStyles = makeStyles(styles);
 
 export const ProductCard = ( product ) => {
     const classes = useStyles();
-
+    console.log(product)
     return (
         <GridItem xs={4} md={4}>
             <Card style={{width: "20rem"}}>
@@ -36,8 +36,8 @@ export const ProductCard = ( product ) => {
                 alt="Card-img-cap"
             />
             <CardBody>
-                <h4 className={classes.cardTitle}>Card title</h4>
-                <p>{product.name}</p>
+                <h4 className={classes.cardTitle}>{product.product_name}</h4>
+                <p>{product.store_item_id}</p>
                 <Link to={"/products/" + product.id} className={classes.createReviewLink}>
                     <Button color="primary">Create Review</Button>
                 </Link>

@@ -11,3 +11,13 @@ export const insertNewReview = async (review) => {
         console.error(error)
     }
 }
+
+export const getReviewersForProduct = async (productId) => {
+    try {
+        return await fetch('/db/reviews/' + productId, {
+            method: 'GET'
+        })
+    } catch (error) {
+        console.error(error)
+    }
+}

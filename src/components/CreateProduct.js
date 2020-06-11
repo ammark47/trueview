@@ -31,7 +31,6 @@ export const CreateProduct = ( product ) => {
     const dispatch = useDispatch()
 
     const handleClick = (e) => {
-        e.preventDefault()
         dispatch(addProductReviewCart(product))
     }
 
@@ -47,10 +46,7 @@ export const CreateProduct = ( product ) => {
             <CardBody>
                 <h4 className={classes.cardTitle}>Card title</h4>
                 <p>{product.name}</p>
-                <Link to={{
-                    pathname: "/reviewer/create-review/checkout",
-                 }}
-                 className={classes.createReviewLink}>
+                <Link to="/reviewer/create-review/checkout" className={classes.createReviewLink}>
                     <Button color="primary" onClick={handleClick}>Create Review</Button>
                 </Link>
             </CardBody>
