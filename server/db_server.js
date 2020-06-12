@@ -57,6 +57,18 @@ app.get('/chat/:customerId/:userId/:reviewId', (req, res) => {
   })
 })
 
+app.post('/chat', (req, res) => {
+  chatModel.insertNewChatRequest(req.body)
+  .then(response => {
+    console.log(response)
+    res.status(200).send(response)
+  })
+  .catch(error => {
+    console.error('error', error)
+    res.status(500).send(error)
+  })
+})
+
 app.get('/products', (req, res) => {
   const { search } = req.query
   console.log(search) 

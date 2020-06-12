@@ -39,7 +39,17 @@ export const requestChat = async (customerId, reviewerId, reviewId) => {
         }
 
 
-        
+        const initiateChat = await fetch(`/db/chat`, {
+            method: 'POST',
+            body: JSON.stringify({
+                customerId,
+                reviewerId,
+                reviewId
+            }),
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })  
         
     } catch (error) {
         console.error(error)

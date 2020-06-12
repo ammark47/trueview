@@ -5,6 +5,11 @@ const checkIfPendingOrActiveChatExists = async (customerId, userId, review_id) =
     return chat ? true : false
 }
 
+const insertNewChatRequest = async (chatInfo) => {
+    return await db.none('INSERT INTO chat(customer_id, reviewer_id, status, review_id) VALUES (${customerId}, ${reviewerId}, ${status}, ${reviewId})', {...chatInfo, status: "PENDING"} )
+}
+
 module.exports = {
     checkIfPendingOrActiveChatExists,
+    insertNewChatRequest
 }
