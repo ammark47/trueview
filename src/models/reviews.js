@@ -22,10 +22,23 @@ export const getReviewersForProduct = async (productId) => {
     }
 }
 
-export const requestChat = async (customerId, reviewerId, productId) => {
+export const requestChat = async (customerId, reviewerId, reviewId) => {
     try {
-        const response  = await fetch(`/db/users/${customerId}/chat-currency`)
-        const { chat_currency: chatCurrency} = await response.json()
+        const responseChatCurrency = await fetch(`/db/users/${customerId}/chat-currency`)
+        const { chat_currency: chatCurrency} = await responseChatCurrency.json()
+
+        const chatExistsResponse =  await fetch(`/db/chat/${customerId}/${reviewerId}/${reviewId}`)
+        const chatExists = await chatExistsResponse.json()
+
+        if (chatCurrency < 1) {
+            return
+        }
+
+        if (chatExists){
+            return
+        }
+
+
         
         
     } catch (error) {

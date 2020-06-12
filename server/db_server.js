@@ -6,6 +6,7 @@ var bodyParser = require('body-parser')
 const userModel = require('./db_helpers/user_model')
 const productModel = require('./db_helpers/product_model')
 const reviewModel = require('./db_helpers/review_model')
+const chatModel = require('./db_helpers/chat_model')
 
 app.use((req,res,next) => {console.log(req.path); next() })
 
@@ -33,6 +34,19 @@ app.get('/users/:userId/chat-currency', (req, res) => {
   const { userId } = req.params
   console.log(userId)
   userModel.getChatCurrencyCount(userId)
+  .then(response => {
+    console.log(response)
+    res.status(200).send({ "chatExists": response })
+  })
+  .catch(error => {
+    console.error('error', error)
+    res.status(500).send(error)
+  })
+})
+
+app.get('/chat/:customerId/:userId/:reviewId', (req, res) => {
+  const { customerId, userId, reviewId } = req.params
+  chatModel.checkIfPendingOrActiveChatExists(customerId, userId, reviewId)
   .then(response => {
     console.log(response)
     res.status(200).send(response)

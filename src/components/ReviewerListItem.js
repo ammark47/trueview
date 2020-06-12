@@ -17,12 +17,12 @@ const useStyles = makeStyles(() => ({
     },
 }))
 
-export const ReviewerListItem = ( reviewer ) => {
+export const ReviewerListItem = ( review ) => {
     const classes = useStyles()
     const customer = useSelector(state => state.authReducer.postgres_user)
 
     const handleClick = () => {
-        requestChat(customer.id, reviewer.user_id, reviewer.product_id)
+        requestChat(customer.id, review.user_id, review.id)
     }
     
     return (
@@ -38,7 +38,7 @@ export const ReviewerListItem = ( reviewer ) => {
                     <Typography variant='body2' gutterBottom>Lorem ipsum dolor sit amet, consectetur adipiscing elit. Quisque placerat vitae erat in hendrerit. Proin eleifend, justo id dictum lacinia, orci sem tincidunt tellus, eget gravida lacus est sed lectus. Vivamus quis viverra purus, quis accumsan tellus. Nullam neque quam, porttitor vel lorem mattis, tempor pretium justo. Aliquam ante nisl, volutpat vitae ex eu, dignissim bibendum nibh. Aliquam lobortis orci sit amet neque pretium varius. Donec orci turpis, aliquet lobortis sem feugiat, tincidunt dignissim metus.</Typography>
                 </GridItem>
                 <GridItem xs={3} align="center">
-                    <Link to={"/products/" + reviewer.product_id + '/' } className={classes.createReviewLink}>
+                    <Link to={"/products/" + review.product_id + '/' } className={classes.createReviewLink}>
                         <Button color="primary" onClick={handleClick}>Check This Reviewer</Button>
                     </Link>
                 </GridItem>
