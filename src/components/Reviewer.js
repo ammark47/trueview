@@ -11,6 +11,9 @@ export const Reviewer = () => {
             <Link className="btn btn-secondary" to="/reviewer/create-review">
                 Create Review
             </Link>
+            <Link className="btn btn-secondary" to="/reviewer/pending-chat-requests">
+                Pending Requests
+            </Link>
         </>
     )
 }

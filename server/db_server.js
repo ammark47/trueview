@@ -69,6 +69,19 @@ app.post('/chat', (req, res) => {
   })
 })
 
+app.get('/chat/:userId', (req, res) => {
+  const { userId } = req.params
+  chatModel.getAllPendingChatRequestsForUser(userId)
+  .then(response => {
+    console.log(response)
+    res.status(200).send(response)
+  })
+  .catch(error => {
+    console.error('error', error)
+    res.status(500).send(error)
+  })
+})
+
 app.get('/products', (req, res) => {
   const { search } = req.query
   console.log(search) 

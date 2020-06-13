@@ -9,7 +9,12 @@ const insertNewChatRequest = async (chatInfo) => {
     return await db.none('INSERT INTO chat(customer_id, reviewer_id, status, review_id) VALUES (${customerId}, ${reviewerId}, ${status}, ${reviewId})', {...chatInfo, status: "PENDING"} )
 }
 
+const getAllPendingChatRequestsForUser = async (userId) => {
+    return await db.manyOrNone('SELECT * FROM chat WHERE reviewer_id = $1 AND status = $2', [userId, 'PENDING'])
+}
+
 module.exports = {
     checkIfPendingOrActiveChatExists,
-    insertNewChatRequest
+    insertNewChatRequest,
+    getAllPendingChatRequestsForUser
 }
