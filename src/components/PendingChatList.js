@@ -39,7 +39,7 @@ export const PendingChatList = ( ) => {
             </ListItem>
             {loading && <LoadingIndicator />}
             {data && data.map(pendingChatRequest => 
-                <PendingChatItem {...pendingChatRequest} key={pendingChatRequest.id} />
+                <PendingChatItem {...pendingChatRequest} key={pendingChatRequest.review_id} />
             )}
         </>
     )

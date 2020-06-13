@@ -19,7 +19,14 @@ const useStyles = makeStyles(() => ({
 export const PendingChatItem = ( pendingChatRequest ) => {
     const classes = useStyles()
     const customer = useSelector(state => state.authReducer.postgres_user)
-    console.log(pendingChatRequest)
+    const { 
+        name,
+        customer_id: customerId, 
+        product_id: productId, 
+        product_name: productName,
+        small_image: productImage
+    } = pendingChatRequest
+
     const handleClick = () => {
     }
     
@@ -27,24 +34,23 @@ export const PendingChatItem = ( pendingChatRequest ) => {
         <ListItem alignItems="flex-start" divider>
             <GridContainer className={classes.root} justify="space-evenly">
                 <GridItem xs={3}>
-                    <Typography variant='h6' gutterBottom>Ammar Karim</Typography>
+                    <Typography variant='h6' gutterBottom>{name}</Typography>
                 </GridItem>
                 <GridItem xs={3}>
                     <GridContainer className={classes.root} direction="row">
                         <GridContainer className={classes.root} >
                             <GridItem sm={4} >
-                                <Image src="https://i5.walmartimages.com/asr/a31d17bb-ebee-4ef0-b0c6-144b691e96d1_1.828640dc873bc869490e24e607ff237a.jpeg?odnHeight=100&odnWidth=100&odnBg=FFFFFF"/>
+                                <Image src={productImage}/>
                             </GridItem>
                             <GridItem sm={8}>
-                                <Typography variant='h6' noWrap>This is a really This is a really description</Typography>
+                                <Typography variant='h6' noWrap>{productName}</Typography>
                             </GridItem>
                         </GridContainer>
                     </GridContainer>
-                    {/* <Rating align="center" readOnly value={3}></Rating> */}
                 </GridItem>
                 <GridItem xs={3} align="center">
-                    <Link to={"/products/" + pendingChatRequest.id + '/' } className={classes.createReviewLink}>
-                        <Button color="primary" onClick={handleClick}>Check This Reviewer</Button>
+                    <Link to={`/reviewer/chat/${customerId}/${productId}`} className={classes.createReviewLink}>
+                        <Button color="primary" onClick={handleClick}>Accept Chat</Button>
                     </Link>
                 </GridItem>
             </GridContainer>

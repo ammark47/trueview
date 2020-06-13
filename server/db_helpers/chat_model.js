@@ -10,7 +10,17 @@ const insertNewChatRequest = async (chatInfo) => {
 }
 
 const getAllPendingChatRequestsForUser = async (userId) => {
-    return await db.manyOrNone('SELECT * FROM chat WHERE reviewer_id = $1 AND status = $2', [userId, 'PENDING'])
+    return await db.manyOrNone(' \
+        SELECT users.name, users.id as customer_id, review.id as review_id, review.product_id, product.product_name, product.small_image \
+        FROM chat \
+            INNER JOIN users \
+                ON chat.customer_id = users.id \
+            INNER JOIN review \
+                ON chat.review_id = review.id \
+            INNER JOIN product \
+                ON review.product_id = product.id	\
+        WHERE reviewer_id = $1 AND status = $2',
+    [userId, 'PENDING'])
 }
 
 module.exports = {
