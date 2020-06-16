@@ -13,8 +13,8 @@ export const ReviewerList = ( ) => {
     return (
         <>
             {loading && <LoadingIndicator />}
-            {data && data.map(reviewer => 
-                <ReviewerListItem {...reviewer} key={reviewer.id} />
+            {data && data.map(review => 
+                <ReviewerListItem {...review} key={review.id} />
             )}
         </>
     )

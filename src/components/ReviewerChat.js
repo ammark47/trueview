@@ -24,18 +24,18 @@ import useFetch from "use-http";
 
 const chatClient = new StreamChat("d2msy7mn26aa", "v65mjqbeq9axk6d69p2kd6mwr2hwg76tbu37dqbd2rve38jpja383d8m2ew5q3z8")
 
-export const CustomerChat = () => {
+export const ReviewerChat = () => {
     const [channel, setChannel] = useState({})
     const [loading, setLoading] = useState(false)
     const [channelId, setChannelId] = useState("")
     const user = useSelector(state => state.authReducer.postgres_user)
     const { customerId, reviewId } = useParams()
 
-    const filters = { type: 'messaging', members: { $in: [user.chat_username] }, customer: user.chat_username };
+    const filters = { type: 'messaging', members: { $in: [user.chat_username] }, reviewer: user.chat_username };
     const sort = { last_message_at: -1 };
 
     useEffect(() => {
-        const setCustomer = async () => {
+        const getChannel = async () => {
             setLoading(true)
 
             // Set the current chat user
@@ -48,10 +48,38 @@ export const CustomerChat = () => {
                 user.chat_token,
             )
             
+            // if customerid and reviewid are passed as url params
+            // get the status of the chat i.e. is is active?
+            // if yes, get and set the corresponding chat channel
+            if (customerId && reviewId) {
+                const resChannelStatus = await fetch(`/db/chat/status/${user.id}/${customerId}/${reviewId}`)
+                const { status: channelStatus } = await resChannelStatus.json()
+
+                if (channelStatus === 'ACTIVE') {
+                    // Get Customer's chat username and create a channel
+                    const resCustomerChatname = await fetch(`/db/users/${customerId}/chat-name`)
+                    const { chat_username: customerChatname } = await resCustomerChatname.json()
+
+                    const channel = await chatClient.channel(
+                        'messaging', 
+                        `${user.id}-${customerId}-${reviewId}`,
+                        { 
+                            members: [ user.chat_username, customerChatname ],
+                            status: 'ACTIVE',
+                            customer: customerChatname,
+                            reviewer: user.chat_username
+                        }
+                    )
+                    console.log(channel)
+                    await channel.create()
+                    setChannel(channel)
+                    setChannelId(channel.cid)
+                }
+            }
             setLoading(false)
         }
 
-        setCustomer()
+        getChannel()
 
         return () => chatClient.disconnect()
     }, [])
@@ -71,6 +99,7 @@ export const CustomerChat = () => {
                         filters={filters}
                         sort={sort}
                         setActiveChannel={setActiveChannel}
+                        customActiveChannel={channelId}
                     >
                     </ChannelList>
                     <Channel channel={channel}>
