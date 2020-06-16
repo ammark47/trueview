@@ -14,6 +14,7 @@ import { ReviewForm } from './components/ReviewForm'
 import Navigation from 'components/Navigation';
 import { ProductReviewerList } from 'components/ProductReviewerList';
 import { PendingChatRequests } from 'components/PendingChatRequests'
+import { ReviewerChat } from 'components/ReviewerChat'
 
 class App extends Component {
   render() {
@@ -40,6 +41,9 @@ class App extends Component {
             </ProtectedRoute>
             <ProtectedRoute exact path="/reviewer/pending-chat-requests">
               <PendingChatRequests />
+            </ProtectedRoute>
+            <ProtectedRoute path="/reviewer/chat/:customerId?/:reviewId?">
+              <ReviewerChat />
             </ProtectedRoute>
           </Col>
         </Row>

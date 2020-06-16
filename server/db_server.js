@@ -2,6 +2,7 @@ const express = require('express')
 const app = express()
 const port = 8080
 var bodyParser = require('body-parser')
+const { StreamChat } = require("stream-chat")
 
 const userModel = require('./db_helpers/user_model')
 const productModel = require('./db_helpers/product_model')
@@ -19,8 +20,29 @@ app.use(function (req, res, next) {
   next();
 });
 
-app.post('/users', (req, res) => {  
-  userModel.getInsertUser(req.body)
+const STREAM_API_KEY = 'd2msy7mn26aa'
+const STREAM_APP_SECRET = 'v65mjqbeq9axk6d69p2kd6mwr2hwg76tbu37dqbd2rve38jpja383d8m2ew5q3z8'
+
+const serverStreamChat = new StreamChat(
+  STREAM_API_KEY,
+  STREAM_APP_SECRET
+);
+
+app.post('/users', async (req, res) => {  
+  const { email, name } = req.body.profile
+  // create stream chat user and token
+  const chatUsername = email.replace(/([^a-z0-9_-]+)/gi, "_")
+  const token = serverStreamChat.createToken(chatUsername)
+
+  await serverStreamChat.setUser({
+    id: chatUsername,
+    name: name
+  })
+
+  serverStreamChat.disconnect()
+
+  // create user in postgres
+  userModel.getInsertUser({...req.body, token, chatUsername})
   .then(response => {
       res.status(200).json(response)
   })
@@ -44,9 +66,49 @@ app.get('/users/:userId/chat-currency', (req, res) => {
   })
 })
 
+app.get('/users/:userId/chat-name', (req, res) => {
+  const { userId } = req.params
+  console.log(userId)
+  userModel.getChatUsername(userId)
+  .then(response => {
+    console.log(response)
+    res.status(200).send( response )
+  })
+  .catch(error => {
+    console.error('error', error)
+    res.status(500).send(error)
+  })
+})
+
 app.get('/chat/:customerId/:userId/:reviewId', (req, res) => {
   const { customerId, userId, reviewId } = req.params
   chatModel.checkIfPendingOrActiveChatExists(customerId, userId, reviewId)
+  .then(response => {
+    console.log(response)
+    res.status(200).send(response)
+  })
+  .catch(error => {
+    console.error('error', error)
+    res.status(500).send(error)
+  })
+})
+
+app.get('/chat/status/:reviewerId/:customerId/:reviewId', (req, res) => {
+  const { customerId, reviewerId, reviewId } = req.params
+  chatModel.getChatStatus(reviewerId, customerId, reviewId)
+  .then(response => {
+    console.log(response)
+    res.status(200).send(response)
+  })
+  .catch(error => {
+    console.error('error', error)
+    res.status(500).send(error)
+  })
+})
+
+app.patch('/chat/accept/:reviewerId/:customerId/:reviewId', (req, res) => {
+  const { customerId, reviewerId, reviewId } = req.params
+  chatModel.setChatStatusActive(reviewerId, customerId, reviewId)
   .then(response => {
     console.log(response)
     res.status(200).send(response)

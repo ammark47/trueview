@@ -6,7 +6,7 @@ const checkIfPendingOrActiveChatExists = async (customerId, userId, review_id) =
 }
 
 const insertNewChatRequest = async (chatInfo) => {
-    return await db.none('INSERT INTO chat(customer_id, reviewer_id, status, review_id) VALUES (${customerId}, ${reviewerId}, ${status}, ${reviewId})', {...chatInfo, status: "PENDING"} )
+    return await db.none('INSERT INTO chat(customer_id, reviewer_id, status, review_id) VALUES (${customerId}, ${reviewerId}, ${status}, ${reviewId})', {...chatInfo, status: 'PENDING'} )
 }
 
 const getAllPendingChatRequestsForUser = async (userId) => {
@@ -23,8 +23,19 @@ const getAllPendingChatRequestsForUser = async (userId) => {
     [userId, 'PENDING'])
 }
 
+const getChatStatus = async (reviewerId, customerId, reviewId) => {
+    const status = await db.oneOrNone('SELECT status FROM chat WHERE reviewer_id = $1 AND customer_id = $2 AND review_id = $3', [reviewerId, customerId, reviewId])
+    return status || {status: 'DOES NOT EXIST'}
+}
+
+const setChatStatusActive = async (reviewerId, customerId, reviewId) => {
+    return db.none('UPDATE chat SET status = $1 WHERE reviewer_id = $2 AND customer_id = $3 AND review_id = $4', ['ACTIVE', reviewerId, customerId, reviewId])
+}
+
 module.exports = {
     checkIfPendingOrActiveChatExists,
     insertNewChatRequest,
-    getAllPendingChatRequestsForUser
+    getAllPendingChatRequestsForUser,
+    getChatStatus,
+    setChatStatusActive
 }

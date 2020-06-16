@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from 'react-redux'
+import { acceptChat } from '../models/chat'
 
 import GridContainer from 'custom_components/Grid/GridContainer'
 import GridItem from 'custom_components/Grid/GridItem'
@@ -18,16 +19,18 @@ const useStyles = makeStyles(() => ({
 
 export const PendingChatItem = ( pendingChatRequest ) => {
     const classes = useStyles()
-    const customer = useSelector(state => state.authReducer.postgres_user)
+    const user = useSelector(state => state.authReducer.postgres_user)
     const { 
         name,
         customer_id: customerId, 
         product_id: productId, 
         product_name: productName,
-        small_image: productImage
+        small_image: productImage,
+        review_id: reviewId
     } = pendingChatRequest
 
     const handleClick = () => {
+        acceptChat(user.id, customerId, reviewId)
     }
     
     return (
@@ -49,7 +52,7 @@ export const PendingChatItem = ( pendingChatRequest ) => {
                     </GridContainer>
                 </GridItem>
                 <GridItem xs={3} align="center">
-                    <Link to={`/reviewer/chat/${customerId}/${productId}`} className={classes.createReviewLink}>
+                    <Link to={`/reviewer/chat/${customerId}/${reviewId}`} className={classes.createReviewLink}>
                         <Button color="primary" onClick={handleClick}>Accept Chat</Button>
                     </Link>
                 </GridItem>
