@@ -45,6 +45,9 @@ class App extends Component {
             <ProtectedRoute path="/reviewer/chat/:customerId?/:reviewId?">
               <ReviewerChat />
             </ProtectedRoute>
+            <ProtectedRoute path="/customer/chat">
+              <CustomerChat />
+            </ProtectedRoute>
           </Col>
         </Row>
       </Container>

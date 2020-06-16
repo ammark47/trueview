@@ -31,7 +31,7 @@ export const ReviewerChat = () => {
     const user = useSelector(state => state.authReducer.postgres_user)
     const { customerId, reviewId } = useParams()
 
-    const filters = { type: 'messaging', members: { $in: [user.chat_username] }};
+    const filters = { type: 'messaging', members: { $in: [user.chat_username] }, reviewer: user.chat_username };
     const sort = { last_message_at: -1 };
 
     useEffect(() => {
@@ -65,10 +65,12 @@ export const ReviewerChat = () => {
                         `${user.id}-${customerId}-${reviewId}`,
                         { 
                             members: [ user.chat_username, customerChatname ],
-                            status: 'ACTIVE'
+                            status: 'ACTIVE',
+                            customer: customerChatname,
+                            reviewer: user.chat_username
                         }
                     )
-                    
+                    console.log(channel)
                     await channel.create()
                     setChannel(channel)
                     setChannelId(channel.cid)
@@ -81,15 +83,6 @@ export const ReviewerChat = () => {
 
         return () => chatClient.disconnect()
     }, [])
-
-    const CustomChatDown = () => {
-        const text = 'Please select a channel from your list or start a new conversation'
-
-        return (
-            <ChatDown type={'No Active Conversations'} text={text} />
-        )
-    }
-
 
     const setActiveChannel = (channel) => {
         setChannel(channel)
