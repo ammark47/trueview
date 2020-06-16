@@ -18,6 +18,7 @@ Enabling conversations between prospective customers and reviewers
 - Create Profile Page
 - Archive conversations
 - Create conversation Feedback system
+- Add error handling 
 - Host DB on cloud
 - Port server to AWS
 - Port client to AWS
