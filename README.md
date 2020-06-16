@@ -11,3 +11,13 @@ Enabling conversations between prospective customers and reviewers
 - CD into ```/server```
 - run `npm install`
 - run `nodemon db_server.js`
+
+
+## TODO
+- Organize UX <Current>
+- Create Profile Page
+- Archive conversations
+- Create conversation Feedback system
+- Host DB on cloud
+- Port server to AWS
+- Port client to AWS
