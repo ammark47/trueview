@@ -31,7 +31,11 @@ export function handleAuthentication() {
   });
 }
 
-export function signIn() {
+export function logIn() {
+  auth0Client.authorize();
+}
+
+export function signUp() {
   auth0Client.authorize();
 }
 

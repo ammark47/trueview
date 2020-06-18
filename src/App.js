@@ -15,16 +15,14 @@ import Navigation from 'components/Navigation';
 import { ProductReviewerList } from 'components/ProductReviewerList';
 import { PendingChatRequests } from 'components/PendingChatRequests'
 import { ReviewerChat } from 'components/ReviewerChat'
+import { LandingPage } from 'components/LandingPage'
 
 class App extends Component {
   render() {
     return (
-      <Container>
-        <Row className="row">
-          <Col xs={12}>
-          <h1></h1>
+        <>
             <Navigation />
-            <Route exact path="/"  />
+            <Route exact path="/" component={LandingPage} />
             <Route exact path="/user-profile" component={UserProfile} />
             <Route exact path="/products" component={Products} />
             <Route exact path="/products/:productId" component={ProductReviewerList} />
@@ -48,9 +46,9 @@ class App extends Component {
             <ProtectedRoute path="/customer/chat">
               <CustomerChat />
             </ProtectedRoute>
-          </Col>
-        </Row>
-      </Container>
+        </>  
+        
+      
     );
   }
 }
