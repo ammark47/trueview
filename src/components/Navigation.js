@@ -11,20 +11,6 @@ import { LoggedOutHeaderLinks } from './LoggedOutHeaderLinks'
 import HeaderLinks from 'custom_components/Header/HeaderLinks';
 import { LoggedInHeaderLinks } from './LoggedInHeaderLinks';
 
-const NavigationBar = styled.div`
-  margin-bottom: 15px;
-  background-color: lightgray;
-`;
-
-const Profile = styled.span`
-  margin-left: 15px;
-`;
-
-const ProfilePicture = styled.img`
-  border-radius: 50%;
-  max-width: 30px;
-  margin-right: 5px;
-`;
 
 
 export default () => {
@@ -45,7 +31,13 @@ export default () => {
     <>
       <Header 
         brand="True View"
-        rightLinks={HeaderLinks} />
+        color="custom"
+        fixed
+        rightLinks={HeaderLinks}
+        changeColorOnScroll={{
+          height: 400,
+          color: "rose"
+        }} />
 
     </>
 
