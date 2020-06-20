@@ -20,7 +20,7 @@ import { LandingPage } from 'components/LandingPage'
 class App extends Component {
   render() {
     return (
-        <>
+        <div style={{ backgroundColor: "#D7FDEC"}}>
             <Navigation />
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/user-profile" component={UserProfile} />
@@ -46,7 +46,7 @@ class App extends Component {
             <ProtectedRoute path="/customer/chat">
               <CustomerChat />
             </ProtectedRoute>
-        </>  
+        </div>  
         
       
     );

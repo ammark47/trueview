@@ -65,7 +65,7 @@ export const LandingPage = () => {
                         <HowItWorks />
                     </div>
                 </div>
-                <Footer />
+                <Footer whiteFont/>
         </>
     )
 }

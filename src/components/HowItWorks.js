@@ -11,7 +11,7 @@ const customStyles = {
     ...styles,
     subTitle: {
         ...styles.title,
-        color: '#8C93A8'
+        color: '#A9FBD7'
     }
 }
 
