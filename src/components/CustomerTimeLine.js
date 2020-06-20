@@ -6,7 +6,7 @@ import { VerticalTimeline, VerticalTimelineElement }  from 'react-vertical-timel
 import SearchIcon from '@material-ui/icons/Search'
 import EmojiPeopleIcon from '@material-ui/icons/EmojiPeople'
 import HourglassFullIcon from '@material-ui/icons/HourglassFull';
-import QuestionAnswerSharpIcon from '@material-ui/icons/QuestionAnswerSharp';
+import QuestionAnswerSharpIcon from '@material-ui/icons/QuestionAnswerSharp'
 import DoneSharpIcon from '@material-ui/icons/DoneSharp';
 import '../images/style.min.css'
 
@@ -80,7 +80,7 @@ export const CustomerTimeLine = () => {
                 </VerticalTimelineElement>
                 <VerticalTimelineElement
                     className="vertical-timeline-element--work"
-                    contentStyle={{ background: '#08415C', color: '#fff' }}
+                    contentStyle={{ background: '#F56476', color: '#fff' }}
                     iconStyle={{ background: '#F56476', color: '#fff' }}
                     icon={<DoneSharpIcon />}
                 >

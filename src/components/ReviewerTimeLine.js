@@ -71,18 +71,6 @@ export const ReviewerTimeLine = () => {
                     iconStyle={{ background: '#08415C', color: '#fff' }}
                     icon={<HourglassFullIcon />}
                 >
-                    <h3 className="vertical-timeline-element-title">Wait For Customers to Find You</h3>
-                    <p>
-                        Customers will be interested in finding reviewers, like you, with a candid
-                        and non-biased reputation.
-                    </p>
-                </VerticalTimelineElement>
-                <VerticalTimelineElement
-                    className="vertical-timeline-element--work"
-                    contentStyle={{ background: '#08415C', color: '#fff' }}
-                    iconStyle={{ background: '#08415C', color: '#fff' }}
-                    icon={<HourglassFullIcon />}
-                >
                     <h3 className="vertical-timeline-element-title">Accept Pending Requests</h3>
                     <p>
                         Customers can earn badges like 
@@ -93,13 +81,25 @@ export const ReviewerTimeLine = () => {
                 <VerticalTimelineElement
                     className="vertical-timeline-element--work"
                     contentStyle={{ background: '#08415C', color: '#fff' }}
-                    iconStyle={{ background: '#F56476', color: '#fff' }}
-                    icon={<DoneSharpIcon />}
+                    iconStyle={{ background: '#08415C', color: '#fff' }}
+                    icon={<QuestionAnswerSharpIcon />}
                 >
-                    <h3 className="vertical-timeline-element-title">Happy Chatting!</h3>
+                    <h3 className="vertical-timeline-element-title">Chat</h3>
                     <p>
                         Have fun! Aim for candor and thoughtfulness. What did you wish you 
                         knew before you bought this product?
+                    </p>
+                </VerticalTimelineElement>
+                <VerticalTimelineElement
+                    className="vertical-timeline-element--work"
+                    contentStyle={{ background: '#F56476', color: '#fff' }}
+                    iconStyle={{ background: '#F56476', color: '#fff' }}
+                    icon={<DoneSharpIcon />}
+                >
+                    <h3 className="vertical-timeline-element-title">Earn Tokens!</h3>
+                    <p>
+                        After a successful conversation, you will be rewarded tokens that
+                        can be used to start chats with other reviewers 
                     </p>
                 </VerticalTimelineElement>
             </VerticalTimeline>       
