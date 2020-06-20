@@ -12,7 +12,7 @@ import ListItem from "@material-ui/core/ListItem";
 import Tooltip from "@material-ui/core/Tooltip";
 
 // @material-ui/icons
-import { ExitToAppSharp } from "@material-ui/icons";
+import { ExitToAppSharp } from "@material-ui/icons"
 
 // core components
 import CustomDropdown from "custom_components/CustomDropdown/CustomDropdown.js";
