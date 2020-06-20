@@ -52,8 +52,7 @@ const footerStyle = {
   icon: {
     width: "18px",
     height: "18px",
-    position: "relative",
-    top: "3px"
+    position: "relative"
   }
 };
 export default footerStyle;
