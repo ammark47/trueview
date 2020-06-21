@@ -16,6 +16,7 @@ import { ProductReviewerList } from 'components/ProductReviewerList';
 import { PendingChatRequests } from 'components/PendingChatRequests'
 import { ReviewerChat } from 'components/ReviewerChat'
 import { LandingPage } from 'components/LandingPage'
+import { Customer } from 'components/Customer';
 
 class App extends Component {
   render() {
@@ -23,6 +24,7 @@ class App extends Component {
         <div style={{ backgroundColor: "#D7FDEC"}}>
             <Navigation />
             <Route exact path="/" component={LandingPage} />
+            <Route exact path="/customer" component={Customer} />
             <Route exact path="/user-profile" component={UserProfile} />
             <Route exact path="/products" component={Products} />
             <Route exact path="/products/:productId" component={ProductReviewerList} />
