@@ -7,7 +7,7 @@ export const Customer = () => {
 
     return (
         <Grid container justify='center'>
-            <Grid item  xs={12} sm={8} md={6}>
+            <Grid item  xs={12} sm={12} md={8}>
                 <CustomerNavTabs />
             </Grid>
         </Grid>

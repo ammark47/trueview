@@ -5,6 +5,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
+import { CustomerSearchProducts } from './CustomerSearchProducts';
 
 const CustomerTabPanel = (props) => {
     const { children, value, index, ...other } = props
@@ -18,9 +19,9 @@ const CustomerTabPanel = (props) => {
             {...other}
             >
             {value === index && (
-                <Box p={2}>
-                <Typography>{children}</Typography>
-                </Box>
+                <>
+                {children}
+                </>
             )}
         </div>
     )
@@ -48,7 +49,7 @@ const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
         backgroundColor: "theme.palette.background.paper",
-        marginTop: '5em'
+        marginTop: '5em',
     },
     tab: {
         backgroundColor: "#D7FDEC",
@@ -94,7 +95,7 @@ export const CustomerNavTabs = () => {
                 </Tabs>
             </AppBar>
             <CustomerTabPanel value={value} index={0}>
-                Search For Product
+                <CustomerSearchProducts />
             </CustomerTabPanel>
             <CustomerTabPanel value={value} index={1}>
                 Chat
