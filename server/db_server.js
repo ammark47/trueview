@@ -158,6 +158,19 @@ app.get('/products', (req, res) => {
     })
 })
 
+app.get('/products/:productId', (req, res) => {
+  const { productId } = req.params
+  productModel.getProductInfo(productId)
+    .then(response => {
+      console.log(response)
+      res.status(200).send(response)
+    })
+    .catch(error => {
+      console.error('error', error)
+      res.status(500).send(error)
+    })
+})
+
 app.get('/reviews/:productId', (req, res) => {
   const { productId } = req.params
   reviewModel.getReviewersFromProductId(productId)

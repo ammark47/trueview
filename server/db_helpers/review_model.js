@@ -13,7 +13,7 @@ const insertNewReview = async (reviewData) => {
 
 const getReviewersFromProductId = async (productId) => {
     try {
-        const reviewerAndUserInfo = await db.any('SELECT review.id, review.product_id, review.user_id, review.review_text, review.rating FROM review JOIN users ON users.id = review.user_id WHERE product_id = $1', [productId])
+        const reviewerAndUserInfo = await db.any('SELECT review.id, review.product_id, review.user_id, review.review_text, users.name, review.rating FROM review JOIN users ON users.id = review.user_id WHERE product_id = $1', [productId])
         return reviewerAndUserInfo
     } catch (e) {
         console.log('error', e)

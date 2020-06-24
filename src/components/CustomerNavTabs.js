@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Tabs from '@material-ui/core/Tabs';
@@ -6,6 +6,7 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { CustomerSearchProducts } from './CustomerSearchProducts';
+
 
 const CustomerTabPanel = (props) => {
     const { children, value, index, ...other } = props
@@ -69,11 +70,18 @@ const useStyles = makeStyles((theme) => ({
 }));
     
 
-export const CustomerNavTabs = () => {
-    const classes = useStyles();
-    const [value, setValue] = React.useState(0);
+export const CustomerNavTabs = ({ path }) => {
+    const classes = useStyles()
+    const [value, setValue] = useState("search")
+
+    useEffect(() => {
+        if (path) {
+            setValue(path)
+        }
+    }, [path])
 
     const handleChange = (event, newValue) => {
+        console.log(newValue)
         setValue(newValue);
     };
 
@@ -81,23 +89,23 @@ export const CustomerNavTabs = () => {
         <div className={classes.root}>
             <AppBar position="static">
                 <Tabs
-                selectionFollowsFocus
-                indicatorColor='secondary'
-                className={classes.tab}
-                TabIndicatorProps={{style: {backgroundColor: "#F56476"}}}
-                variant="fullWidth"
-                value={value}
-                onChange={handleChange}
-                aria-label="nav tabs"
-                >
-                <CustomerLinkTab className={classes.linkTab} label="Search For Product" href="/drafts" {...Customera11yProps(0)} />
-                <CustomerLinkTab className={classes.linkTab} label="Chat" href="/trash" {...Customera11yProps(1)} />
+                    selectionFollowsFocus
+                    indicatorColor='secondary'
+                    className={classes.tab}
+                    TabIndicatorProps={{style: {backgroundColor: "#F56476"}}}
+                    variant="fullWidth"
+                    value={value}
+                    onChange={handleChange}
+                    aria-label="nav tabs"
+                    >
+                    <CustomerLinkTab className={classes.linkTab} label="Search For Product" href="/drafts" value={"search"} {...Customera11yProps("search")} />
+                    <CustomerLinkTab className={classes.linkTab} label="Chat" href="/trash" value={"chat"} {...Customera11yProps("chat")} />
                 </Tabs>
             </AppBar>
-            <CustomerTabPanel value={value} index={0}>
+            <CustomerTabPanel value={value} index={"search"}>
                 <CustomerSearchProducts />
             </CustomerTabPanel>
-            <CustomerTabPanel value={value} index={1}>
+            <CustomerTabPanel value={value} index={"chat"}>
                 Chat
             </CustomerTabPanel>
         </div>

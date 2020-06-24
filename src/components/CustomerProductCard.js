@@ -1,4 +1,5 @@
 import React from 'react'
+import { useHistory } from 'react-router-dom'
 import { TextField, Grid, makeStyles, Card, CardMedia, CardContent, Typography } from '@material-ui/core'
 
 const useStyles = makeStyles({
@@ -8,7 +9,7 @@ const useStyles = makeStyles({
     media: {
         height: 300,
     },
-    content: {
+    cardText: {
         backgroundColor: "rgb(215, 253, 236)",
         '&:hover': {
             boxShadow: '0px 2px 6px -1px rgba(0,0,0,0.2) 0px 2px 6px 0px rgba(0,0,0,0.14) 0px 2px 6px 0px rgba(0,0,0,0.12)',
@@ -20,18 +21,23 @@ const useStyles = makeStyles({
 
 export const CustomerProductCard = (product) => {
     const classes = useStyles()
+    const history = useHistory()
     const {
         small_image,
         product_name,
         store_item_id
     } = product
 
+    const handleClick = () => {
+        history.push(`/customers/products/${product.id}`)
+    }
+
     console.log(product)
     return (
         <Grid item xs={12} sm={12} md={3} >
-            <Card className={classes.root}>
+            <Card className={classes.root} onClick={handleClick}>
                 <CardMedia className={classes.media} image={small_image}/>
-                <CardContent className={classes.content}>
+                <CardContent className={classes.cardText}>
                     <Typography variant='subtitle1'>
                         {product_name}
                     </Typography>

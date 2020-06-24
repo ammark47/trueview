@@ -1,68 +1,116 @@
-import React from 'react'
-import GridContainer from 'custom_components/Grid/GridContainer'
-import GridItem from 'custom_components/Grid/GridItem'
-import { Container, TextField, makeStyles, Typography, Paper, List } from '@material-ui/core'
-import Image from 'material-ui-image'
-import { grayColor } from 'assets/jss/material-kit-react'
+import React, { useState, forwardRef } from 'react'
+import { List, ListItem, Grid, makeStyles, Typography, Paper, Button } from '@material-ui/core'
+import MaterialTable from 'material-table'
 import Rating from '@material-ui/lab/Rating'
-import { ReviewerList } from './ReviewerList'
+import MessageSharpIcon  from '@material-ui/icons/MessageSharp'
+import { requestChat } from 'models/reviews'
+import { useSelector } from 'react-redux'
+import { useSnackbar } from 'notistack'
+import { useHistory } from 'react-router-dom'
 
 const useStyles = makeStyles(() => ({
     root: {
         flexGrow: 1
     },
-    idColor: {
-        color: grayColor
-    },
-
+    list: {
+        marginTop: '5em',
+        marginBottom: '3em'
+    }
 }))
 
-export const ProductReviewerList = () => {
-    const classes = useStyles() 
+const ReviewerTable = ({ reviewerList }) => {
+    const { enqueueSnackbar, closeSnackbar } = useSnackbar()
+    const history = useHistory()
+    const customer = useSelector(state => state.authReducer.postgres_user)
+    const columns = [
+            { title: 'Name', field: 'name' },
+            { title: 'Product Rating', field: 'rating', render: rowData => <Rating readOnly value={rowData.rating}></Rating> },
+            { title: 'Review', field: 'review_text' }
+        ]
+
+    const handleChatRequest = async (event, review) => {
+        const { chatCurrencyNotEnough, chatExistsAlready, serverError } = await requestChat(customer.id, review.user_id, review.id)
+
+        let variant = 'success'
+        let message = `You have spent 1 token and successfully requested a chat with ${review.name}! Periodically check \
+        your chat page to see if your request has been accepted`
+        let action = key => (
+            <>
+                <Button onClick={() => { history.push('/customers/chat') }}>
+                    Check Chats
+                </Button>
+            </>
+        )
+
+        if ( chatCurrencyNotEnough ) {
+            variant = 'error'
+            message = 'You do not have enough tokens to request a chat. Earn more by submitting reviews and guiding other customers!'
+            action = null
+        } else if ( chatExistsAlready ) {
+            variant = 'error'
+            message = `You already have a pending or active chat with ${review.name}`
+        } else if ( serverError ) {
+            variant = 'error'
+            message = 'Network error. Please try again later'
+        }
+
+        const snackbarOptions = {
+            anchorOrigin: {
+                vertical: 'top',
+                horizontal: 'center',
+            },
+            variant: variant,
+            action: action
+        }
+
+        enqueueSnackbar(message, snackbarOptions)
+    }
+
+    const actions = [
+        {
+            icon: MessageSharpIcon,
+            iconProps: { style: { backgroundColor: '#08415C', color: 'white' }},
+            tooltip: 'Request Chat',
+            onClick: handleChatRequest
+        }
+    ]
+
+    
 
     return (
-        <GridContainer className={classes.root} direction="row">
-            <GridItem>
-                <GridContainer  className={classes.root} >
-                    <GridContainer  direction="row" className={classes.root}>
-                        <GridItem md={4} sm={4}>
-                            <Image src="https://i5.walmartimages.com/asr/a31d17bb-ebee-4ef0-b0c6-144b691e96d1_1.828640dc873bc869490e24e607ff237a.jpeg?odnHeight=100&odnWidth=100&odnBg=FFFFFF"/>
-                        </GridItem>
-                        <GridItem xs={8}>
-                            <GridContainer direction="column" className={classes.root} alignItems="stretch">
-                                <Paper elevation={3}>
-                                    <GridItem>
-                                        <Typography variant='h3' gutterBottom>Breathing Mask</Typography>
-                                    </GridItem>
-                                    
-                                        <GridItem> 
-                                            <GridContainer direction='row' className={classes.root}>
-                                                <GridItem xs={4}>
-                                                    <Rating readOnly value={3}></Rating>
-                                                </GridItem>
-                                                <GridItem xs={6}>
-                                                    <Typography variant='subtitle1' className={classes.idColor} gutterBottom>Walmart #: n28h39h92</Typography>
-                                                </GridItem>
-                                            </GridContainer>
-                                        </GridItem>
-                                    <GridItem>
-                                        <Typography variant='body1' gutterBottom>Manufacturer: WhirlpoolPart Number: WP12550109QDescription: Gasket ReGenuine OEM Part</Typography>
-                                    </GridItem>
-                                </Paper>
-                            </GridContainer>
-                        </GridItem>
-                    </GridContainer>
-                </GridContainer>
-            </GridItem>
-            <GridItem>
-                <GridContainer className={classes.root} direction="column" >
-                        <Paper elevation={2}>
-                            <List >
-                                <ReviewerList />
-                            </List>
-                        </Paper>
-                </GridContainer>
-            </GridItem>
-        </GridContainer>
+        <MaterialTable
+            title="Reviewers"
+            columns={columns}
+            data={reviewerList}
+            actions={actions}
+            options={{
+                search: false,
+                paging: false,
+                actionsCellStyle: {
+                    backgroundColor: "#08415C",
+                    color: "#F56476",
+                },
+            }}
+            localization={{
+                header: {
+                    actions: "Request Chat",
+                }
+            }}
+        />
+    )
+}
+
+export const ProductReviewerList = ({ reviewerList }) => {
+    const classes = useStyles()
+
+
+    return (
+        <>
+            <Grid container className={classes.list} justify="center" >
+                <Grid item md={10} className={classes.root}>
+                    <ReviewerTable reviewerList={reviewerList} />
+                </Grid>
+            </Grid>
+        </>
     )
 }

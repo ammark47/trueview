@@ -11,7 +11,7 @@ import clsx from 'clsx'
 
 import { logIn } from '../Auth0'
 import { HowItWorks } from './HowItWorks'
-import Footer from 'custom_components/Footer/Footer'
+
 
 const customStyles = {
     ...styles,
@@ -65,7 +65,6 @@ export const LandingPage = () => {
                         <HowItWorks />
                     </div>
                 </div>
-                <Footer whiteFont/>
         </>
     )
 }

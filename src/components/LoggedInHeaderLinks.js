@@ -28,7 +28,7 @@ export const LoggedInHeaderLinks = (props) => {
     const history = useHistory()
 
     const handleCustomerLink = () => {
-        history.push('/customer')
+        history.push('/customers')
     }
     return (
         <List className={classes.list}>
