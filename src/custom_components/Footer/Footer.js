@@ -9,18 +9,30 @@ import { List, ListItem } from "@material-ui/core";
 import { makeStyles } from "@material-ui/core/styles";
 
 // @material-ui/icons
-import Favorite from "@material-ui/icons/Favorite";
+import LinkedInIcon from '@material-ui/icons/LinkedIn';
+import EmailIcon from '@material-ui/icons/Email';
 
 import styles from "assets/jss/material-kit-react/components/footerStyle.js";
 
-const useStyles = makeStyles(styles);
+const customStyles = {
+  ...styles,
+  footerBottom: {
+    width: '100%',
+    position: 'absolute',
+    bottom: 0,
+    height: '2.5rem'
+  }
+}
+
+const useStyles = makeStyles(customStyles);
 
 export default function Footer(props) {
   const classes = useStyles();
   const { whiteFont } = props;
   const footerClasses = classNames({
     [classes.footer]: true,
-    [classes.footerWhiteFont]: whiteFont
+    [classes.footerWhiteFont]: whiteFont,
+    [classes.footerBottom]: false
   });
   const aClasses = classNames({
     [classes.a]: true,
@@ -33,53 +45,26 @@ export default function Footer(props) {
           <List className={classes.list}>
             <ListItem className={classes.inlineBlock}>
               <a
-                href="https://www.creative-tim.com/?ref=mkr-footer"
+                href="https://www.linkedin.com/in/ammarkarim/"
                 className={classes.block}
                 target="_blank"
               >
-                Creative Tim
+                <LinkedInIcon className={classes.icon} /> Linkedin
               </a>
             </ListItem>
             <ListItem className={classes.inlineBlock}>
               <a
-                href="https://www.creative-tim.com/presentation?ref=mkr-footer"
+                href="mailto: iammkarim25@gmail.com"
                 className={classes.block}
                 target="_blank"
               >
-                About us
-              </a>
-            </ListItem>
-            <ListItem className={classes.inlineBlock}>
-              <a
-                href="http://blog.creative-tim.com/?ref=mkr-footer"
-                className={classes.block}
-                target="_blank"
-              >
-                Blog
-              </a>
-            </ListItem>
-            <ListItem className={classes.inlineBlock}>
-              <a
-                href="https://www.creative-tim.com/license?ref=mkr-footer"
-                className={classes.block}
-                target="_blank"
-              >
-                Licenses
+                <EmailIcon className={classes.icon} /> Email
               </a>
             </ListItem>
           </List>
         </div>
         <div className={classes.right}>
-          &copy; {1900 + new Date().getYear()} , made with{" "}
-          <Favorite className={classes.icon} /> by{" "}
-          <a
-            href="https://www.creative-tim.com?ref=mkr-footer"
-            className={aClasses}
-            target="_blank"
-          >
-            Creative Tim
-          </a>{" "}
-          for a better web.
+          &copy; {1900 + new Date().getYear()} Ammar Karim
         </div>
       </div>
     </footer>

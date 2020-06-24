@@ -16,9 +16,14 @@ getReviewedProducts = async (searchKey) => {
     })
 }
 
+getProductInfo = async (productId) => {
+    return db.oneOrNone('SELECT * FROM product WHERE id = $1', [productId])
+}
+
 module.exports = {
     insertNewProduct,
-    getReviewedProducts
+    getReviewedProducts,
+    getProductInfo
 }
 
 

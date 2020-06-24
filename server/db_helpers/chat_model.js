@@ -9,6 +9,13 @@ const insertNewChatRequest = async (chatInfo) => {
     return await db.none('INSERT INTO chat(customer_id, reviewer_id, status, review_id) VALUES (${customerId}, ${reviewerId}, ${status}, ${reviewId})', {...chatInfo, status: 'PENDING'} )
 }
 
+const insertNewChatRequestAndDecrementCurrency = async (chatInfo) => {
+    return db.tx('insertRequestAndDecrement', async t => {
+        await t.none('INSERT INTO chat(customer_id, reviewer_id, status, review_id) VALUES (${customerId}, ${reviewerId}, ${status}, ${reviewId})', {...chatInfo, status: 'PENDING'} )
+        await t.none('UPDATE users SET chat_currency = chat_currency - 1 WHERE id = ${customerId}', chatInfo)
+    })
+}
+
 const getAllPendingChatRequestsForUser = async (userId) => {
     return await db.manyOrNone(' \
         SELECT users.name, users.id as customer_id, review.id as review_id, review.product_id, product.product_name, product.small_image \
@@ -37,5 +44,6 @@ module.exports = {
     insertNewChatRequest,
     getAllPendingChatRequestsForUser,
     getChatStatus,
-    setChatStatusActive
+    setChatStatusActive,
+    insertNewChatRequestAndDecrementCurrency
 }

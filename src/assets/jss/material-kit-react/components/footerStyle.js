@@ -26,7 +26,8 @@ const footerStyle = {
     textAlign: "center",
     display: "flex",
     zIndex: "2",
-    position: "relative"
+    position: "relative",
+    backgroundColor: "#08415C"
   },
   a: {
     color: primaryColor,
@@ -52,8 +53,7 @@ const footerStyle = {
   icon: {
     width: "18px",
     height: "18px",
-    position: "relative",
-    top: "3px"
+    position: "relative"
   }
 };
 export default footerStyle;

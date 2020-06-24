@@ -9,13 +9,16 @@ import { Provider } from 'react-redux';
 import { PersistGate } from 'redux-persist/integration/react'
 import { persistor } from './store/configueStore'
 import { store }  from './store/configueStore'
+import { SnackbarProvider } from 'notistack'
 import * as serviceWorker from './serviceWorker';
 
 ReactDOM.render(
     <Provider store={ store }>
         <PersistGate loading={null} persistor={persistor}>
             <BrowserRouter>
-                <App />
+                <SnackbarProvider maxSnack={3}>
+                    <App />
+                </SnackbarProvider>
             </BrowserRouter>
         </PersistGate>
     </Provider>, 

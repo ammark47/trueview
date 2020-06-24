@@ -22,7 +22,7 @@ import chat from "store/reducers/chat";
 import { useParams } from "react-router-dom";
 import useFetch from "use-http";
 
-const chatClient = new StreamChat("d2msy7mn26aa", "v65mjqbeq9axk6d69p2kd6mwr2hwg76tbu37dqbd2rve38jpja383d8m2ew5q3z8")
+const chatClient = new StreamChat("d2msy7mn26aa")
 
 export const ReviewerChat = () => {
     const [channel, setChannel] = useState({})

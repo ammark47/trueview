@@ -23,23 +23,31 @@ export const getReviewersForProduct = async (productId) => {
 }
 
 export const requestChat = async (customerId, reviewerId, reviewId) => {
-    try {
-        const responseChatCurrency = await fetch(`/db/users/${customerId}/chat-currency`)
-        const { chat_currency: chatCurrency} = await responseChatCurrency.json()
+    let chatExistsAlready = false
+    let chatCurrencyNotEnough = false
+    let serverError = false
+    let success = false
 
-        const chatExistsResponse =  await fetch(`/db/chat/${customerId}/${reviewerId}/${reviewId}`)
-        const chatExists = await chatExistsResponse.json()
+    const responseChatCurrency = await fetch(`/db/users/${customerId}/chat-currency`)
+    const { chat_currency } = await responseChatCurrency.json()
+    console.log(chat_currency)
+    if ( chat_currency < 1 ){
+        chatCurrencyNotEnough = true
+    }
 
-        if (chatCurrency < 1) {
-            return
-        }
+    const chatExistsResponse =  await fetch(`/db/chat/${customerId}/${reviewerId}/${reviewId}`)
+    const chatExists = await chatExistsResponse.json()
 
-        if (chatExists){
-            return
-        }
+    if ( chatExists ){
+        chatExistsAlready = true
+    }
 
+    if (!responseChatCurrency.ok || !chatExistsResponse.ok){
+        serverError = true
+    }
 
-        const initiateChat = await fetch(`/db/chat`, {
+    if ( !chatCurrencyNotEnough && !chatExistsAlready ){
+        const initiateChatResponse = await fetch(`/db/chat`, {
             method: 'POST',
             body: JSON.stringify({
                 customerId,
@@ -49,9 +57,17 @@ export const requestChat = async (customerId, reviewerId, reviewId) => {
             headers: {
                 'Content-Type': 'application/json'
             }
-        })  
-        
-    } catch (error) {
-        console.error(error)
+        }) 
+
+        serverError = !initiateChatResponse.ok
     }
+
+
+    return {
+        chatCurrencyNotEnough,
+        chatExistsAlready,
+        serverError
+    }
+
+        
 }
