@@ -3,6 +3,8 @@ const app = express()
 const port = 8080
 var bodyParser = require('body-parser')
 const { StreamChat } = require("stream-chat")
+const walmart = require('./walmart_api')
+
 
 const userModel = require('./db_helpers/user_model')
 const productModel = require('./db_helpers/product_model')
@@ -185,7 +187,6 @@ app.get('/reviews/:productId', (req, res) => {
     })
 })
 
-
 app.post('/reviews/create', (req, res) => {
   reviewModel.insertNewReview(req.body)
   .then(response => {
@@ -195,6 +196,17 @@ app.post('/reviews/create', (req, res) => {
     console.error(error)
     res.status(500).send(error)
   })
+})
+
+app.get('/walmart/products/:searchQuery', async (req, res) => {
+  const { searchQuery, start } = req.params
+  try {
+      const items = await walmart.getWalmartProducts(searchQuery, start)
+      console.log(items)
+      res.status(200).json(items)
+  } catch (error) {
+      res.status(500).send(error)
+  }  
 })
 
 app.listen(port, () => {
