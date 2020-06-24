@@ -1,7 +1,7 @@
 # TrueView
 Enabling conversations between prospective customers and reviewers
 
-## How to run locally [!warning: postgres db has been created mostly manually -> cannot run a working app yet]
+## How to run locally [warning: postgres db has been created mostly manually -> cannot run a working app yet unless you set up your own postgres]
 ### start the client
 - CD into the root directory `/trueview`
 - run `npm install`
