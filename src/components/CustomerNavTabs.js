@@ -6,6 +6,8 @@ import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Box from '@material-ui/core/Box';
 import { CustomerSearchProducts } from './CustomerSearchProducts';
+import { CustomerChat } from './CustomerChat';
+import { Grid } from '@material-ui/core'
 
 
 const CustomerTabPanel = (props) => {
@@ -66,8 +68,7 @@ const useStyles = makeStyles((theme) => ({
             },
         textDecoration: 'none'
     }
-
-}));
+}))
     
 
 export const CustomerNavTabs = ({ path }) => {
@@ -81,33 +82,36 @@ export const CustomerNavTabs = ({ path }) => {
     }, [path])
 
     const handleChange = (event, newValue) => {
-        console.log(newValue)
-        setValue(newValue);
+        setValue(newValue)
     };
 
     return (
-        <div className={classes.root}>
-            <AppBar position="static">
-                <Tabs
-                    selectionFollowsFocus
-                    indicatorColor='secondary'
-                    className={classes.tab}
-                    TabIndicatorProps={{style: {backgroundColor: "#F56476"}}}
-                    variant="fullWidth"
-                    value={value}
-                    onChange={handleChange}
-                    aria-label="nav tabs"
-                    >
-                    <CustomerLinkTab className={classes.linkTab} label="Search For Product" href="/drafts" value={"search"} {...Customera11yProps("search")} />
-                    <CustomerLinkTab className={classes.linkTab} label="Chat" href="/trash" value={"chat"} {...Customera11yProps("chat")} />
-                </Tabs>
-            </AppBar>
-            <CustomerTabPanel value={value} index={"search"}>
-                <CustomerSearchProducts />
-            </CustomerTabPanel>
-            <CustomerTabPanel value={value} index={"chat"}>
-                Chat
-            </CustomerTabPanel>
-        </div>
+        <Grid container className={classes.root} justify="center">
+            <Grid item xs={12} md={8}>
+                <AppBar position="static">
+                    <Tabs
+                        selectionFollowsFocus
+                        indicatorColor='secondary'
+                        className={classes.tab}
+                        TabIndicatorProps={{style: {backgroundColor: "#F56476"}}}
+                        variant="fullWidth"
+                        value={value}
+                        onChange={handleChange}
+                        aria-label="nav tabs"
+                        >
+                        <CustomerLinkTab className={classes.linkTab} label="Search For Product" href="/drafts" value={"search"} {...Customera11yProps("search")} />
+                        <CustomerLinkTab className={classes.linkTab} label="Chat" href="/trash" value={"chat"} {...Customera11yProps("chat")} />
+                    </Tabs>
+                </AppBar>
+            </Grid>
+            <Grid item xs={12} md={10} >
+                <CustomerTabPanel value={value} index={"search"}>
+                    <CustomerSearchProducts />
+                </CustomerTabPanel>
+                <CustomerTabPanel value={value} index={"chat"}>
+                    <CustomerChat />
+                </CustomerTabPanel>
+            </Grid>
+        </Grid>
     )
 }

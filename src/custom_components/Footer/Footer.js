@@ -14,14 +14,25 @@ import EmailIcon from '@material-ui/icons/Email';
 
 import styles from "assets/jss/material-kit-react/components/footerStyle.js";
 
-const useStyles = makeStyles(styles);
+const customStyles = {
+  ...styles,
+  footerBottom: {
+    width: '100%',
+    position: 'absolute',
+    bottom: 0,
+    height: '2.5rem'
+  }
+}
+
+const useStyles = makeStyles(customStyles);
 
 export default function Footer(props) {
   const classes = useStyles();
   const { whiteFont } = props;
   const footerClasses = classNames({
     [classes.footer]: true,
-    [classes.footerWhiteFont]: whiteFont
+    [classes.footerWhiteFont]: whiteFont,
+    [classes.footerBottom]: false
   });
   const aClasses = classNames({
     [classes.a]: true,

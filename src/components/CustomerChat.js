@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react"
+import { Grid } from '@material-ui/core'
 import {
 Chat,
 Channel,
@@ -18,15 +19,24 @@ import { StreamChat } from "stream-chat"
 
 import "stream-chat-react/dist/css/index.css"
 import { useSelector } from "react-redux";
-import chat from "store/reducers/chat";
 import { useParams } from "react-router-dom";
-import useFetch from "use-http";
+import { makeStyles } from "@material-ui/core"
+import { logIn } from "Auth0"
+import "css/chat.css"
 
-const chatClient = new StreamChat("d2msy7mn26aa", "v65mjqbeq9axk6d69p2kd6mwr2hwg76tbu37dqbd2rve38jpja383d8m2ew5q3z8")
+
+
+const useStyles = makeStyles(() => ({
+    root: {
+        marginTop: '2em'
+    }
+}))
 
 export const CustomerChat = () => {
+    const classes = useStyles()
     const [channel, setChannel] = useState({})
     const [loading, setLoading] = useState(false)
+    const [chatClient, setChatClient] = useState(new StreamChat("d2msy7mn26aa"))
     const [channelId, setChannelId] = useState("")
     const user = useSelector(state => state.authReducer.postgres_user)
     const { customerId, reviewId } = useParams()
@@ -39,7 +49,7 @@ export const CustomerChat = () => {
             setLoading(true)
 
             // Set the current chat user
-            await chatClient.setUser(
+            const response = await chatClient.setUser(
                 {
                     id: user.chat_username,
                     name: user.name,
@@ -50,11 +60,14 @@ export const CustomerChat = () => {
             
             setLoading(false)
         }
+        if (!user) {
+            logIn()
+        }
 
         setCustomer()
 
         return () => chatClient.disconnect()
-    }, [])
+    }, [user, chatClient])
 
     const setActiveChannel = (channel) => {
         setChannel(channel)
@@ -62,15 +75,16 @@ export const CustomerChat = () => {
 
 
     return (
-        <>
+        <Grid item container xs={12} className={classes.root} >
             {loading && <div>Loading chat...</div>}
             {!loading && 
-                (<Chat client={chatClient} theme="messaging light" >
+                (<Chat client={chatClient} theme="messaging light"  >
                     <ChannelList
                         Preview={ChannelPreviewCompact}
                         filters={filters}
                         sort={sort}
                         setActiveChannel={setActiveChannel}
+                        className="str-chat__header-livestream"
                     >
                     </ChannelList>
                     <Channel channel={channel}>
@@ -83,7 +97,7 @@ export const CustomerChat = () => {
                 </Chat>
                 )
             }
-        </>
+        </Grid>
     )
 
 }

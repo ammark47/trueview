@@ -20,7 +20,7 @@ import { CustomerProductReviewerList } from 'components/CustomerProductReviewerL
 class App extends Component {
   render() {
     return (
-        <div style={{ backgroundColor: "#D7FDEC"}}>
+        <div style={{ backgroundColor: "#D7FDEC" }}>
             <Navigation />
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/customers/:path?" component={Customer} />
