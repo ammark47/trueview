@@ -30,22 +30,38 @@ export const LoggedInHeaderLinks = (props) => {
     const handleCustomerLink = () => {
         history.push('/customers')
     }
+
+    const handleReviewerLink = () => {
+        history.push('/reviewers')
+    }
+
     return (
         <List className={classes.list}>
             <ListItem className={classes.listItem}>
                 <Button
-                onClick={handleCustomerLink}
-                color="transparent"
-                className={classes.navLink}
+                    onClick={handleCustomerLink}
+                    color="transparent"
+                    className={classes.navLink}
                 >
                 Customer
                 </Button>
             </ListItem>
+
             <ListItem className={classes.listItem}>
                 <Button
-                onClick={props.logOut}
+                onClick={handleReviewerLink}
                 color="transparent"
                 className={classes.navLink}
+                >
+                Reviewer
+                </Button>
+            </ListItem>
+
+            <ListItem className={classes.listItem}>
+                <Button
+                    onClick={props.logOut}
+                    color="transparent"
+                    className={classes.navLink}
                 >
                 <ExitToAppSharp className={classes.icons} /> Log Out
                 </Button>

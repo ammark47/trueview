@@ -8,45 +8,6 @@ import { CustomerChat } from './CustomerChat';
 import { Grid } from '@material-ui/core'
 import { useHistory } from 'react-router-dom';
 
-
-const CustomerTabPanel = (props) => {
-    const { children, value, index, ...other } = props
-
-    return (
-        <div 
-            role="tabpanel"
-            hidden={value !== index}
-            id={`nav-tabpanel-${index}`}
-            aria-labelledby={`nav-tab-${index}`}
-            {...other}
-            >
-            {value === index && (
-                <>
-                {children}
-                </>
-            )}
-        </div>
-    )
-}
-
-const Customera11yProps = (index) => {
-    return {
-        id: `nav-tab-${index}`,
-        'aria-controls': `nav-tabpanel-${index}`,
-    }
-}
-
-const CustomerLinkTab = (props) => {
-    return (
-        <Tab
-            component="a"
-            onClick={(event) => {
-                event.preventDefault();
-            }}
-            {...props} />
-    )
-}
-
 const useStyles = makeStyles((theme) => ({
     root: {
         flexGrow: 1,
@@ -68,12 +29,50 @@ const useStyles = makeStyles((theme) => ({
         textDecoration: 'none'
     }
 }))
-    
 
-export const CustomerNavTabs = ({ path }) => {
+
+const ReviewerTabPanel = (props) => {
+    const { children, value, index, ...other } = props
+
+    return (
+        <div 
+            role="tabpanel"
+            hidden={value !== index}
+            id={`nav-tabpanel-${index}`}
+            aria-labelledby={`nav-tab-${index}`}
+            {...other}
+            >
+            {value === index && (
+                <>
+                {children}
+                </>
+            )}
+        </div>
+    )
+}
+
+const Reviewera11yProps = (index) => {
+    return {
+        id: `nav-tab-${index}`,
+        'aria-controls': `nav-tabpanel-${index}`,
+    }
+}
+
+const ReviewerLinkTab = (props) => {
+    return (
+        <Tab
+            component="a"
+            onClick={(event) => {
+                event.preventDefault();
+            }}
+            {...props} />
+    )
+}
+
+export const ReviewerNavTabs = ({ path }) => {
     const classes = useStyles()
     const history = useHistory()
-    const [value, setValue] = useState("search")
+    const [value, setValue] = useState("review")
 
     useEffect(() => {
         if (path) {
@@ -83,7 +82,7 @@ export const CustomerNavTabs = ({ path }) => {
 
     const handleChange = (event, newValue) => {
         setValue(newValue)
-        history.replace(`/customers/${newValue}`)
+        history.replace(`/reviewers/${newValue}`)
     };
 
     return (
@@ -100,18 +99,22 @@ export const CustomerNavTabs = ({ path }) => {
                         onChange={handleChange}
                         aria-label="nav tabs"
                         >
-                        <CustomerLinkTab className={classes.linkTab} label="Search For Product" href="/drafts" value={"search"} {...Customera11yProps("search")} />
-                        <CustomerLinkTab className={classes.linkTab} label="Chat" href="/trash" value={"chat"} {...Customera11yProps("chat")} />
+                        <ReviewerLinkTab className={classes.linkTab} label="Review A Product"  value={"review"} {...Reviewera11yProps("review")} />
+                        <ReviewerLinkTab className={classes.linkTab} label="Pending Chats" value={"pending"} {...Reviewera11yProps("pending")} />
+                        <ReviewerLinkTab className={classes.linkTab} label="Chat" value={"chat"} {...Reviewera11yProps("chat")} />
                     </Tabs>
                 </AppBar>
             </Grid>
             <Grid item xs={12} md={10} >
-                <CustomerTabPanel value={value} index={"search"}>
-                    <CustomerSearchProducts />
-                </CustomerTabPanel>
-                <CustomerTabPanel value={value} index={"chat"}>
-                    <CustomerChat />
-                </CustomerTabPanel>
+                <ReviewerTabPanel value={value} index={"review"}>
+                    Submit Review
+                </ReviewerTabPanel>
+                <ReviewerTabPanel value={value} index={"pending"}>
+                    Pending Chats
+                </ReviewerTabPanel>
+                <ReviewerTabPanel value={value} index={"chat"}>
+                    Reviewer Chat
+                </ReviewerTabPanel>
             </Grid>
         </Grid>
     )
