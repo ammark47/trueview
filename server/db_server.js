@@ -58,7 +58,8 @@ app.get('/users/:userId/chat-currency', (req, res) => {
   userModel.getChatCurrencyCount(userId)
   .then(response => {
     console.log(response)
-    res.status(200).send({ "chatExists": response })
+    const { chat_currency } = response
+    res.status(200).send({ chat_currency })
   })
   .catch(error => {
     console.error('error', error)
@@ -120,7 +121,7 @@ app.patch('/chat/accept/:reviewerId/:customerId/:reviewId', (req, res) => {
 })
 
 app.post('/chat', (req, res) => {
-  chatModel.insertNewChatRequest(req.body)
+  chatModel.insertNewChatRequestAndDecrementCurrency(req.body)
   .then(response => {
     console.log(response)
     res.status(200).send(response)

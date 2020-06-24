@@ -4,6 +4,7 @@ import Image from 'material-ui-image'
 import useFetch from 'use-http'
 import ReactLoading from 'react-loading'
 import { ProductReviewerList } from './ProductReviewerList'
+import { useParams } from 'react-router-dom'
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -20,7 +21,8 @@ const useStyles = makeStyles(() => ({
 
 export const CustomerProductReviewerList = () => {
     const classes = useStyles()
-    const productId = 15
+    const { productId } = useParams()
+    
     const { loading: productLoading, error: productError, data: productData } = useFetch(`/db/products/${productId}`, [])
     const { loading: reviewerLoading, error: reviewerError, data: reviewerData } = useFetch(`/db/reviews/${productId}`, [])
 

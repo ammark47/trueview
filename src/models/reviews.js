@@ -30,7 +30,7 @@ export const requestChat = async (customerId, reviewerId, reviewId) => {
 
     const responseChatCurrency = await fetch(`/db/users/${customerId}/chat-currency`)
     const { chat_currency } = await responseChatCurrency.json()
-
+    console.log(chat_currency)
     if ( chat_currency < 1 ){
         chatCurrencyNotEnough = true
     }

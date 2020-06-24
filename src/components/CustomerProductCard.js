@@ -32,7 +32,6 @@ export const CustomerProductCard = (product) => {
         history.push(`/customers/products/${product.id}`)
     }
 
-    console.log(product)
     return (
         <Grid item xs={12} sm={12} md={3} >
             <Card className={classes.root} onClick={handleClick}>
