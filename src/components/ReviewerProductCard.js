@@ -1,6 +1,9 @@
 import React from 'react'
 import { useHistory } from 'react-router-dom'
 import { TextField, Grid, makeStyles, Card, CardMedia, CardContent, Typography } from '@material-ui/core'
+import { useDispatch } from 'react-redux'
+import { addProductReviewCart } from '../store/actions/products'
+
 
 const useStyles = makeStyles({
     root: {
@@ -22,6 +25,7 @@ const useStyles = makeStyles({
 export const ReviewerProductCard = (product) => {
     const classes = useStyles()
     const history = useHistory()
+    const dispatch = useDispatch()
     const {
         mediumImage,
         name,
@@ -29,7 +33,12 @@ export const ReviewerProductCard = (product) => {
     } = product
 
     const handleClick = () => {
-        history.push(`/reviewers/products/${product.id}`)
+        history.push(`/reviewers/products/review/`)
+        dispatch(addProductReviewCart({ 
+            mediumImage,
+            name,
+            itemId
+        }))
     }
 
     return (

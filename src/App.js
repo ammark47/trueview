@@ -17,11 +17,13 @@ import { LandingPage } from 'components/LandingPage'
 import { Customer } from 'components/Customer';
 import { CustomerProductReviewerList } from 'components/CustomerProductReviewerList';
 import { Reviewer } from 'components/Reviewer';
+import { Grid } from '@material-ui/core';
 
 class App extends Component {
   render() {
     return (
-        <div style={{ backgroundColor: "#D7FDEC" }}>
+        <Grid container style={{ backgroundColor: "#D7FDEC" }}>
+          <Grid item xs={12}  style={{ minHeight: '100%' }}>
             <Navigation />
             <Route exact path="/" component={LandingPage} />
             <Route exact path="/customers/:path?" component={Customer} />
@@ -50,8 +52,11 @@ class App extends Component {
             <ProtectedRoute path="/customer/chat">
               <CustomerChat />
             </ProtectedRoute>
+          </Grid>
+          <Grid item md={12}  style={{ marginTop: '3em' }}>
             <Footer whiteFont/>
-        </div>  
+          </Grid>
+        </Grid>  
         
       
     );
