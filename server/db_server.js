@@ -187,14 +187,19 @@ app.get('/reviews/:productId', (req, res) => {
     })
 })
 
-app.post('/reviews/create', (req, res) => {
+app.post('/reviews/create', (req, res, next) => {
   reviewModel.insertNewReview(req.body)
   .then(response => {
     res.status(200).send(response)
   })
   .catch(error => {
-    console.error(error)
-    res.status(500).send(error)
+    if (error.message === 'review exists') {
+      res.status(403).send(error)
+      next()
+    } else {
+      res.status(500).send(error)
+      next()
+    }
   })
 })
 

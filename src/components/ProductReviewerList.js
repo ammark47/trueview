@@ -41,7 +41,7 @@ const ReviewerTable = ({ reviewerList }) => {
                 </Button>
             </>
         )
-        console.log(chatCurrencyNotEnough)
+
         if ( chatCurrencyNotEnough ) {
             variant = 'error'
             message = 'You do not have enough tokens to request a chat. Earn more by submitting reviews and guiding other customers!'

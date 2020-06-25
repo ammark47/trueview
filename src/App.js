@@ -18,6 +18,7 @@ import { Customer } from 'components/Customer';
 import { CustomerProductReviewerList } from 'components/CustomerProductReviewerList';
 import { Reviewer } from 'components/Reviewer';
 import { Grid } from '@material-ui/core';
+import { ReviewerCreateReview } from 'components/ReviewerCreateReview';
 
 class App extends Component {
   render() {
@@ -29,6 +30,7 @@ class App extends Component {
             <Route exact path="/customers/:path?" component={Customer} />
             <Route exact path="/customers/products/:productId" component={CustomerProductReviewerList} />
             <Route exact path="/reviewers/:path?" component={Reviewer} />
+            <Route exact path="/reviewers/products/review" component={ReviewerCreateReview} />
             <Route exact path="/user-profile" component={UserProfile} />
             <Route exact path="/products" component={Products} />
             <Route exact path="/products/:productId" component={ProductReviewerList} />
