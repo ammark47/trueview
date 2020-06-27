@@ -53,7 +53,8 @@
     "styled-components": "5.1.1",
     "typeface-roboto": "0.0.75",
     "use-constant": "1.0.0",
-    "use-http": "1.0.12"
+    "use-http": "1.0.12",
+    "use-interval": "1.2.1"
   },
   "scripts": {
     "start": "react-scripts start",

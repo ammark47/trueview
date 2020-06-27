@@ -122,6 +122,19 @@ app.patch('/chat/accept/:reviewerId/:customerId/:reviewId', (req, res) => {
   })
 })
 
+app.patch('/chat/decline/:reviewerId/:customerId/:reviewId', (req, res) => {
+  const { customerId, reviewerId, reviewId } = req.params
+  chatModel.setChatStatusDeclined(reviewerId, customerId, reviewId)
+  .then(response => {
+    console.log(response)
+    res.status(200).send(response)
+  })
+  .catch(error => {
+    console.error('error', error)
+    res.status(500).send(error)
+  })
+})
+
 app.post('/chat', (req, res) => {
   chatModel.insertNewChatRequestAndDecrementCurrency(req.body)
   .then(response => {

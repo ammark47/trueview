@@ -39,11 +39,16 @@ const setChatStatusActive = async (reviewerId, customerId, reviewId) => {
     return db.none('UPDATE chat SET status = $1 WHERE reviewer_id = $2 AND customer_id = $3 AND review_id = $4', ['ACTIVE', reviewerId, customerId, reviewId])
 }
 
+const setChatStatusDeclined = async (reviewerId, customerId, reviewId) => {
+    return db.none('UPDATE chat SET status = $1 WHERE reviewer_id = $2 AND customer_id = $3 AND review_id = $4', ['DECLINED', reviewerId, customerId, reviewId])
+}
+
 module.exports = {
     checkIfPendingOrActiveChatExists,
     insertNewChatRequest,
     getAllPendingChatRequestsForUser,
     getChatStatus,
     setChatStatusActive,
-    insertNewChatRequestAndDecrementCurrency
+    insertNewChatRequestAndDecrementCurrency,
+    setChatStatusDeclined
 }
