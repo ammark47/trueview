@@ -1,4 +1,5 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect } from "react"
+import { Grid } from '@material-ui/core'
 import {
 Chat,
 Channel,
@@ -6,7 +7,11 @@ Thread,
 Window,
 ChannelList,
 ChannelListTeam,
+ChannelListMessenger,
+MessageInputFlat,
+ChannelHeader,
 MessageList,
+MessageSimple,
 MessageTeam,
 MessageInput,
 ChatDown,
@@ -18,28 +23,37 @@ import { StreamChat } from "stream-chat"
 
 import "stream-chat-react/dist/css/index.css"
 import { useSelector } from "react-redux";
-import chat from "store/reducers/chat";
 import { useParams } from "react-router-dom";
-import useFetch from "use-http";
+import { makeStyles } from "@material-ui/core"
+import { logIn } from "Auth0"
+import "css/chat.css"
 
-const chatClient = new StreamChat("d2msy7mn26aa")
+
+
+const useStyles = makeStyles(() => ({
+    root: {
+        flexGrow: 1,
+        marginTop: '2em'
+    }
+}))
 
 export const ReviewerChat = () => {
+    const classes = useStyles()
     const [channel, setChannel] = useState({})
     const [loading, setLoading] = useState(false)
+    const [chatClient, setChatClient] = useState(new StreamChat("d2msy7mn26aa"))
     const [channelId, setChannelId] = useState("")
     const user = useSelector(state => state.authReducer.postgres_user)
-    const { customerId, reviewId } = useParams()
 
     const filters = { type: 'messaging', members: { $in: [user.chat_username] }, reviewer: user.chat_username };
     const sort = { last_message_at: -1 };
 
     useEffect(() => {
-        const getChannel = async () => {
+        const setReviewer = async () => {
             setLoading(true)
 
             // Set the current chat user
-            await chatClient.setUser(
+            const response = await chatClient.setUser(
                 {
                     id: user.chat_username,
                     name: user.name,
@@ -48,41 +62,16 @@ export const ReviewerChat = () => {
                 user.chat_token,
             )
             
-            // if customerid and reviewid are passed as url params
-            // get the status of the chat i.e. is is active?
-            // if yes, get and set the corresponding chat channel
-            if (customerId && reviewId) {
-                const resChannelStatus = await fetch(`/db/chat/status/${user.id}/${customerId}/${reviewId}`)
-                const { status: channelStatus } = await resChannelStatus.json()
-
-                if (channelStatus === 'ACTIVE') {
-                    // Get Customer's chat username and create a channel
-                    const resCustomerChatname = await fetch(`/db/users/${customerId}/chat-name`)
-                    const { chat_username: customerChatname } = await resCustomerChatname.json()
-
-                    const channel = await chatClient.channel(
-                        'messaging', 
-                        `${user.id}-${customerId}-${reviewId}`,
-                        { 
-                            members: [ user.chat_username, customerChatname ],
-                            status: 'ACTIVE',
-                            customer: customerChatname,
-                            reviewer: user.chat_username
-                        }
-                    )
-                    console.log(channel)
-                    await channel.create()
-                    setChannel(channel)
-                    setChannelId(channel.cid)
-                }
-            }
             setLoading(false)
         }
+        if (!user) {
+            logIn()
+        }
 
-        getChannel()
+        setReviewer()
 
-        return () => chatClient.disconnect()
-    }, [])
+        return async () => await chatClient.disconnect()
+    }, [user, chatClient])
 
     const setActiveChannel = (channel) => {
         setChannel(channel)
@@ -90,29 +79,30 @@ export const ReviewerChat = () => {
 
 
     return (
-        <>
+        <Grid item container xs={12} className={classes.root} >
             {loading && <div>Loading chat...</div>}
             {!loading && 
-                (<Chat client={chatClient} theme="messaging light" >
+                (<Chat client={chatClient} theme="messaging light"  >
                     <ChannelList
-                        Preview={ChannelPreviewCompact}
+                        List={ChannelListMessenger}
+                        Preview={ChannelPreviewMessenger}
                         filters={filters}
                         sort={sort}
                         setActiveChannel={setActiveChannel}
-                        customActiveChannel={channelId}
                     >
                     </ChannelList>
                     <Channel channel={channel}>
                         <Window>
-                            <MessageList Message={MessageTeam} />
-                            <MessageInput focus />
+                            <ChannelHeader />
+                            <MessageList/>
+                            <MessageInput  Input={MessageInputFlat} />
                         </Window>
-                        <Thread Message={MessageTeam} />
+                        <Thread Message={MessageSimple} />
                     </Channel>
                 </Chat>
                 )
             }
-        </>
+        </Grid>
     )
 
 }

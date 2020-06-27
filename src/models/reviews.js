@@ -1,15 +1,15 @@
 export const insertNewReview = async (review) => {
-    try {
-        return await fetch('/db/reviews/create', {
+    const reviewCreateResponse = await fetch('/db/reviews/create', {
             method: 'POST',
             body: JSON.stringify(review),
             headers: {
                 'Content-Type': 'application/json'
             }
         })
-    } catch (error) {
-        console.error(error)
-    }
+    
+    console.log(`client recieved ${reviewCreateResponse} in insertNewReview`)
+    console.log(reviewCreateResponse)
+    return reviewCreateResponse.status
 }
 
 export const getReviewersForProduct = async (productId) => {
@@ -30,7 +30,7 @@ export const requestChat = async (customerId, reviewerId, reviewId) => {
 
     const responseChatCurrency = await fetch(`/db/users/${customerId}/chat-currency`)
     const { chat_currency } = await responseChatCurrency.json()
-    console.log(chat_currency)
+
     if ( chat_currency < 1 ){
         chatCurrencyNotEnough = true
     }

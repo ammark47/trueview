@@ -3,6 +3,8 @@ const app = express()
 const port = 8080
 var bodyParser = require('body-parser')
 const { StreamChat } = require("stream-chat")
+const walmart = require('./walmart_api')
+
 
 const userModel = require('./db_helpers/user_model')
 const productModel = require('./db_helpers/product_model')
@@ -109,7 +111,48 @@ app.get('/chat/status/:reviewerId/:customerId/:reviewId', (req, res) => {
 
 app.patch('/chat/accept/:reviewerId/:customerId/:reviewId', (req, res) => {
   const { customerId, reviewerId, reviewId } = req.params
+  const { chat_username, chat_token, name, customerName } = req.body
+
   chatModel.setChatStatusActive(reviewerId, customerId, reviewId)
+  .then(() => {
+    return userModel.getChatUsername(customerId)    
+  })
+  .then(async ({ chat_username: customerChatname }) => {
+    // create getStream conversation
+    await serverStreamChat.setUser({
+      id: chat_username,
+      name: name
+    },
+      chat_token
+    )
+
+    const channel = await serverStreamChat.channel(
+      'messaging', 
+      `${name}-${customerName}-${reviewId}`,
+      { 
+          members: [ chat_username, customerChatname ],
+          status: 'ACTIVE',
+          customer: customerChatname,
+          reviewer: chat_username,
+          reviewId: reviewId,
+          name: `${name}-${customerName}-${reviewId}`
+      }
+    )
+
+    await channel.create()
+    serverStreamChat.disconnect()
+
+    res.status(200).send()
+  })
+  .catch(error => {
+    console.error('error', error)
+    res.status(500).send(error)
+  })
+})
+
+app.patch('/chat/decline/:reviewerId/:customerId/:reviewId', (req, res) => {
+  const { customerId, reviewerId, reviewId } = req.params
+  chatModel.setChatStatusDeclined(reviewerId, customerId, reviewId)
   .then(response => {
     console.log(response)
     res.status(200).send(response)
@@ -185,16 +228,31 @@ app.get('/reviews/:productId', (req, res) => {
     })
 })
 
-
-app.post('/reviews/create', (req, res) => {
+app.post('/reviews/create', (req, res, next) => {
   reviewModel.insertNewReview(req.body)
   .then(response => {
     res.status(200).send(response)
   })
   .catch(error => {
-    console.error(error)
-    res.status(500).send(error)
+    if (error.message === 'review exists') {
+      res.status(403).send(error)
+      next()
+    } else {
+      res.status(500).send(error)
+      next()
+    }
   })
+})
+
+app.get('/walmart/products/:searchQuery', async (req, res) => {
+  const { searchQuery, start } = req.params
+  try {
+      const items = await walmart.getWalmartProducts(searchQuery, start)
+      console.log(items)
+      res.status(200).json(items)
+  } catch (error) {
+      res.status(500).send(error)
+  }  
 })
 
 app.listen(port, () => {

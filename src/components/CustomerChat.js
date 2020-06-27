@@ -1,19 +1,23 @@
 import React, { useState, useEffect } from "react"
 import { Grid } from '@material-ui/core'
 import {
-Chat,
-Channel,
-Thread,
-Window,
-ChannelList,
-ChannelListTeam,
-MessageList,
-MessageTeam,
-MessageInput,
-ChatDown,
-ChannelPreviewCompact,
-ChannelPreviewMessenger,
-ChannelPreview,
+    Chat,
+    Channel,
+    Thread,
+    Window,
+    ChannelList,
+    ChannelListTeam,
+    ChannelListMessenger,
+    MessageInputFlat,
+    ChannelHeader,
+    MessageList,
+    MessageSimple,
+    MessageTeam,
+    MessageInput,
+    ChatDown,
+    ChannelPreviewCompact,
+    ChannelPreviewMessenger,
+    ChannelPreview,
 } from "stream-chat-react";
 import { StreamChat } from "stream-chat"
 
@@ -76,28 +80,29 @@ export const CustomerChat = () => {
 
     return (
         <Grid item container xs={12} className={classes.root} >
-            {loading && <div>Loading chat...</div>}
-            {!loading && 
-                (<Chat client={chatClient} theme="messaging light"  >
-                    <ChannelList
-                        Preview={ChannelPreviewCompact}
-                        filters={filters}
-                        sort={sort}
-                        setActiveChannel={setActiveChannel}
-                        className="str-chat__header-livestream"
-                    >
-                    </ChannelList>
-                    <Channel channel={channel}>
-                        <Window>
-                            <MessageList Message={MessageTeam} />
-                            <MessageInput focus />
-                        </Window>
-                        <Thread Message={MessageTeam} />
-                    </Channel>
-                </Chat>
-                )
-            }
-        </Grid>
+        {loading && <div>Loading chat...</div>}
+        {!loading && 
+            (<Chat client={chatClient} theme="messaging light"  >
+                <ChannelList
+                    List={ChannelListMessenger}
+                    Preview={ChannelPreviewMessenger}
+                    filters={filters}
+                    sort={sort}
+                    setActiveChannel={setActiveChannel}
+                >
+                </ChannelList>
+                <Channel channel={channel}>
+                    <Window>
+                        <ChannelHeader />
+                        <MessageList/>
+                        <MessageInput  Input={MessageInputFlat} />
+                    </Window>
+                    <Thread Message={MessageSimple} />
+                </Channel>
+            </Chat>
+            )
+        }
+    </Grid>
     )
 
 }
