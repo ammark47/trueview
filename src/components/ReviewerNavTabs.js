@@ -9,6 +9,7 @@ import { Grid } from '@material-ui/core'
 import { useHistory } from 'react-router-dom';
 import { ReviewerSearchProducts } from './ReviewerSearchProducts';
 import { ReviewerPendingChat } from './ReviewerPendingChat';
+import { ReviewerChat } from './ReviewerChat';
 
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -115,7 +116,7 @@ export const ReviewerNavTabs = ({ path }) => {
                     <ReviewerPendingChat />
                 </ReviewerTabPanel>
                 <ReviewerTabPanel value={value} index={"chat"}>
-                    Reviewer Chat
+                    <ReviewerChat />
                 </ReviewerTabPanel>
             </Grid>
         </Grid>

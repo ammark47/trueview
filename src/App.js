@@ -12,7 +12,7 @@ import Navigation from 'components/Navigation'
 import Footer from 'custom_components/Footer/Footer'
 import { ProductReviewerList } from 'components/ProductReviewerList1';
 import { PendingChatRequests } from 'components/PendingChatRequests'
-import { ReviewerChat } from 'components/ReviewerChat'
+import { ReviewerChat } from 'components/ReviewerChat1'
 import { LandingPage } from 'components/LandingPage'
 import { Customer } from 'components/Customer';
 import { CustomerProductReviewerList } from 'components/CustomerProductReviewerList';

@@ -111,10 +111,38 @@ app.get('/chat/status/:reviewerId/:customerId/:reviewId', (req, res) => {
 
 app.patch('/chat/accept/:reviewerId/:customerId/:reviewId', (req, res) => {
   const { customerId, reviewerId, reviewId } = req.params
+  const { chat_username, chat_token, name, customerName } = req.body
+
   chatModel.setChatStatusActive(reviewerId, customerId, reviewId)
-  .then(response => {
-    console.log(response)
-    res.status(200).send(response)
+  .then(() => {
+    return userModel.getChatUsername(customerId)    
+  })
+  .then(async ({ chat_username: customerChatname }) => {
+    // create getStream conversation
+    await serverStreamChat.setUser({
+      id: chat_username,
+      name: name
+    },
+      chat_token
+    )
+
+    const channel = await serverStreamChat.channel(
+      'messaging', 
+      `${name}-${customerName}-${reviewId}`,
+      { 
+          members: [ chat_username, customerChatname ],
+          status: 'ACTIVE',
+          customer: customerChatname,
+          reviewer: chat_username,
+          reviewId: reviewId,
+          name: `${name}-${customerName}-${reviewId}`
+      }
+    )
+
+    await channel.create()
+    serverStreamChat.disconnect()
+
+    res.status(200).send()
   })
   .catch(error => {
     console.error('error', error)

@@ -1,10 +1,6 @@
-.str-chat__loading-channels{
-    width: 300px;
-    height: 100%;
-    padding: 20px;
-    background: red; }
 
-@media screen and (max-width: 960px) {
+
+/* @media screen and (max-width: 960px) {
     .str-chat-channel-list-burger {
         display: flex; }
     .str-chat-channel-list.messaging, .str-chat-channel-list.team, .str-chat-channel-list.commerce {
@@ -17,9 +13,9 @@
         box-shadow: 7px 0 9px 0 rgba(0, 0, 0, 0.03), 1px 0 0 0 rgba(0, 0, 0, 0.03);
         transition: left 200ms ease-in-out; }
     .str-chat-channel-checkbox:checked ~ .str-chat-channel-list.messaging, .str-chat-channel-checkbox:checked ~ .str-chat-channel-list.team, .str-chat-channel-checkbox:checked ~ .str-chat-channel-list.commerce {
-        left: 0px; } }
+        left: 0px; } } 
 
-.str-chat.messaging, .str-chat.commerce {
+ .str-chat.messaging, .str-chat.commerce {
     background-color: white;
     border: 10px;
     border-radius: 10px;
@@ -29,4 +25,45 @@
     min-width: 230px;
     background: white;
     margin: 10px;
+}
+
+.str-chat-channel.messaging, .str-chat-channel.commerce {
+    width: 59vw;
+} */
+
+@media screen and (max-width: 960px) {
+    .str-chat-channel.messaging, .str-chat-channel.commerce {
+        width: 100%;
+    }
+    .str-chat-channel-list.messaging, .str-chat-channel-list.team, .str-chat-channel-list.commerce {
+        top: unset;
+    }
+    .str-chat-channel .str-chat__container {
+        width: unset;
+    }
+}
+
+.str-chat.messaging {
+    background-color: #08415C;
+    padding: 20px 10px 10px 10px;
+}
+
+.str-chat__container {
+    width: 55vw;
+}
+
+.str-chat-channel-list {
+    width: 20vw;
+}
+
+.str-chat__channel-preview-messenger {
+    background-color: #D7FDEC;
+    color: #08415C;
+    border-radius: 10px;
+}
+
+.str-chat__channel-preview-messenger:hover {
+    cursor: pointer;
+    background-color: #08415C;
+    color: #F56476;
 }
