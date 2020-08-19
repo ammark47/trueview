@@ -11,7 +11,7 @@
     "@testing-library/react": "9.5.0",
     "@testing-library/user-event": "^7.2.1",
     "auth0-js": "9.13.2",
-    "auth0-lock": "11.24.2",
+    "auth0-lock": "11.26.0",
     "awesome-debounce-promise": "2.1.0",
     "bootstrap": "4.5.0",
     "classnames": "2.2.6",
